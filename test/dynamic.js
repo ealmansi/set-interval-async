@@ -1,10 +1,9 @@
-let { assert } = require('chai')
 let lolex = require('lolex')
 let {
   setIntervalAsync,
   clearIntervalAsync
 } = require('../dynamic')
-let { executeRuntimeTest } = require('./util')
+let { executeRuntimeTest } = require('./util/runtime-test')
 
 describe('Dynamic setIntervalAsync', async () => {
   let originalSetImmediate = setImmediate
@@ -17,28 +16,6 @@ describe('Dynamic setIntervalAsync', async () => {
   afterEach(async () => {
     if (clock !== null) {
       clock.uninstall()
-    }
-  })
-
-  it('should validate arguments', async () => {
-    let invalidHandlers = [undefined, null, {}, [], 'x', 42]
-    let invalidIntervals = [undefined, null, {}, [], 'x', () => {}]
-    for (let invalidHandler of invalidHandlers) {
-      assert.throws(
-        () => {
-          setIntervalAsync(invalidHandler)
-        }
-      )
-    }
-    for (let invalidInterval of invalidIntervals) {
-      assert.throws(
-        () => {
-          setIntervalAsync(
-            () => {},
-            invalidInterval
-          )
-        }
-      )
     }
   })
 

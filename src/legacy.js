@@ -2,26 +2,27 @@
 import { clearIntervalAsync } from './clear'
 import { validateHandler, validateInterval } from './util'
 import SetIntervalAsyncError from './error'
-import Timer from './timer'
+import SetIntervalAsyncTimer from './timer'
 
 /**
  * 
  * @param {function} handler - Handler function to be executed in intervals.
  * @param {number} interval - Interval in milliseconds.
- * @returns a Timer object which can be used to stop execution.
+ * @returns a SetIntervalAsyncTimer object which can be used to stop execution.
  */
 function setIntervalAsync (handler, interval) {
   validateHandler(handler)
   validateInterval(interval)
-  let timer = new Timer()
+  let timer = new SetIntervalAsyncTimer()
   timer.timeoutId = setTimeout(
-    async function fn () {
+    function fn () {
       if (!timer.stopped) {
         timer.timeoutId = setTimeout(fn, interval)
       }
-      let promise = Promise.resolve(handler())
-      timer.promise = promise
-      await promise
+      timer.promise = Promise.resolve(
+      ).then(
+        handler
+      )
     },
     interval
   )

@@ -2,7 +2,7 @@
 /**
  * Return type for setIntervalAsync.
  */
-export default class Timer {
+export default class SetIntervalAsyncTimer {
   constructor () {
     this.timeoutId = null
     this.promise = null

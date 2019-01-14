@@ -5,7 +5,7 @@
  * Any ongoing function executions will run until completion,
  * but all future ones will be cancelled.
  *
- * @param {Timer} timer
+ * @param {SetIntervalAsyncTimer} timer
  * @returns a Promise indicating when the last execution has finished
  */
 async function clearIntervalAsync (timer) {
@@ -13,12 +13,8 @@ async function clearIntervalAsync (timer) {
     clearTimeout(timer.timeoutId)
     timer.timeoutId = null
   }
-  let promise = timer.promise !== null
-    ? timer.promise.then(() => {})
-    : Promise.resolve()
-  timer.promise = null
   timer.stopped = true
-  return promise
+  await Promise.resolve(timer.promise)
 }
 
 export { clearIntervalAsync }
