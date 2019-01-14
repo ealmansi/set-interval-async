@@ -3,7 +3,7 @@ let lolex = require('lolex')
 let {
   setIntervalAsync,
   clearIntervalAsync
-} = require('set-interval-async/dynamic')
+} = require('../dynamic')
 let { executeRuntimeTest } = require('./util')
 
 describe('Dynamic setIntervalAsync', async () => {

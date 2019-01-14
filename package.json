@@ -1,6 +1,6 @@
 {
   "name": "set-interval-async",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Modern setInterval for async functions with reentrancy protection.",
   "main": "dist/set-interval-async.cjs.js",
   "module": "dist/set-interval-async.esm.mjs",
@@ -41,6 +41,7 @@
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
     "test": "nyc mocha --require @babel/register",
-    "clean": "rimraf set-interval-async.* dynamic fixed legacy .nyc_output"
+    "clean": "rimraf set-interval-async.* dynamic fixed legacy .nyc_output",
+    "prepublish": "yarn clean && yarn build && yarn test"
   }
 }

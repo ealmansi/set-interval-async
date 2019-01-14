@@ -3,7 +3,7 @@ let lolex = require('lolex')
 let {
   setIntervalAsync,
   clearIntervalAsync
-} = require('set-interval-async/legacy')
+} = require('../legacy')
 let { executeRuntimeTest } = require('./util')
 
 describe('Legacy setIntervalAsync', async () => {

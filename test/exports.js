@@ -4,19 +4,19 @@ let {
   fixed: { setIntervalAsync: setIntervalAsyncF1 },
   legacy: { setIntervalAsync: setIntervalAsyncL1 },
   clearIntervalAsync
-} = require('set-interval-async')
+} = require('..')
 let {
   setIntervalAsync: setIntervalAsyncD2,
   clearIntervalAsync: clearIntervalAsyncD
-} = require('set-interval-async/dynamic')
+} = require('../dynamic')
 let {
   setIntervalAsync: setIntervalAsyncF2,
   clearIntervalAsync: clearIntervalAsyncF
-} = require('set-interval-async/fixed')
+} = require('../fixed')
 let {
   setIntervalAsync: setIntervalAsyncL2,
   clearIntervalAsync: clearIntervalAsyncL
-} = require('set-interval-async/legacy')
+} = require('../legacy')
 
 describe('Exports', async () => {
   it('should have the correct type', async () => {
