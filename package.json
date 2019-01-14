@@ -1,6 +1,6 @@
 {
   "name": "set-interval-async",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Modern setInterval for async functions with reentrancy protection.",
   "main": "dist/set-interval-async.cjs.js",
   "module": "dist/set-interval-async.esm.mjs",
