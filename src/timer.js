@@ -4,8 +4,9 @@
  */
 export default class SetIntervalAsyncTimer {
   constructor () {
-    this.timeoutId = null
-    this.promise = null
     this.stopped = false
+    this.id = 0
+    this.timeouts = {}
+    this.promises = {}
   }
 }

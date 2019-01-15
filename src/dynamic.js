@@ -14,10 +14,12 @@ function setIntervalAsync (handler, interval) {
   validateHandler(handler)
   validateInterval(interval)
   let timer = new SetIntervalAsyncTimer()
-  timer.timeoutId = setTimeout(
-    function fn () {
-      let startTime, endTime
-      timer.promise = Promise.resolve(
+  let id = timer.id
+  timer.timeouts[id] = setTimeout(
+    function timeoutHandler () {
+      let id = timer.id
+      let startTime = null, endTime = null
+      timer.promises[id] = Promise.resolve(
       ).then(
         () => {
           startTime = new Date()
@@ -26,13 +28,16 @@ function setIntervalAsync (handler, interval) {
       ).then(
         () => {
           endTime = new Date()
+          delete timer.timeouts[id]
+          delete timer.promises[id]
           if (!timer.stopped) {
             let executionTime = endTime - startTime
             let timeout = interval > executionTime ? interval - executionTime : 0
-            timer.timeoutId = setTimeout(fn, timeout)
+            timer.timeouts[id + 1] = setTimeout(timeoutHandler, timeout)
           }
         }
       )
+      timer.id = id + 1
     },
     interval
   )

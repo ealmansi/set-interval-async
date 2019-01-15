@@ -14,7 +14,8 @@ async function executeRuntimeTest (
   let timer = setIntervalAsync(
     async () => {
       startCount = startCount + 1
-      await sleep(getExecutionTime(startCount - 1))
+      let executionTime = getExecutionTime(startCount - 1)
+      await sleep(executionTime)
       endCount = endCount + 1
     },
     interval
@@ -34,18 +35,24 @@ async function executeRuntimeTest (
     assert.equal(startCount, expectedStartCount)
     assert.equal(endCount, expectedEndCount)
   }
-  clock.runToFrame()
-  let clearIntervalPromise = clearIntervalAsync(timer)
-  clock.runAll()
-  await clearIntervalPromise
+  let clearIntervalAsyncPromise = clearIntervalAsync(timer)
+  await tick(
+    1e5,
+    clock,
+    originalSetImmediate
+  )
+  await clearIntervalAsyncPromise
+  assert.equal(startCount, endCount)
 }
 
 async function sleep (
   milliseconds
 ) {
-  await new Promise((resolve) => {
-    setTimeout(resolve, milliseconds)
-  })
+  await new Promise(
+    (resolve) => {
+      setTimeout(resolve, milliseconds)
+    }
+  )
 }
 
 async function tick (
@@ -53,15 +60,12 @@ async function tick (
   clock,
   originalSetImmediate
 ) {
-  if (milliseconds < 10) {
-    throw new Error('Minimum tick is 10 milliseconds.')
+  if (milliseconds < 1) {
+    throw new Error('Minimum tick is 1 milliseconds.')
   }
-  let currentTime = clock.tick(milliseconds - 10)
-  for (let i = 0; i < 10; ++i) {
-    await new Promise(resolve => originalSetImmediate(resolve))
-    currentTime = clock.tick(1)
-  }
-  return currentTime
+  clock.tick(milliseconds - 1)
+  await new Promise(resolve => originalSetImmediate(resolve))
+  return clock.tick(1)
 }
 
 module.exports = {

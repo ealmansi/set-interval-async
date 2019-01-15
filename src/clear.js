@@ -9,12 +9,16 @@
  * @returns a Promise indicating when the last execution has finished
  */
 async function clearIntervalAsync (timer) {
-  if (timer.timeoutId !== null) {
-    clearTimeout(timer.timeoutId)
-    timer.timeoutId = null
-  }
   timer.stopped = true
-  await Promise.resolve(timer.promise)
+  for (let timeout of Object.values(timer.timeouts)) {
+    clearTimeout(timeout)
+  }
+  let intervalId = setInterval(() => {}, Math.pow(2, 31) - 1)
+  await Promise.all(
+    Object.values(timer.promises)
+  ).then(
+    () => clearInterval(intervalId)
+  )
 }
 
 export { clearIntervalAsync }
