@@ -93,7 +93,54 @@ var setIntervalAsync = SetIntervalAsync.legacy.setIntervalAsync
 
 // Load `clearIntervalAsync` as well.
 
-var clearIntervalAsync = SetIntervalAsync.clearIntervalAsync</code></pre><h1>Motivation</h1><p>If you've ever had to deal with weird, subtle bugs as a consequence of using <code>setInterval</code>[1] on asynchronous functions, or had to manually reimplement <code>setInterval</code> using <code>setTimeout</code>[2] to prevent multiple executions of the same asynchronous function from overlapping, then this library is a drop-in replacement that will solve your issues.</p>
+var clearIntervalAsync = SetIntervalAsync.clearIntervalAsync</code></pre><h1>Usage</h1><p>In the most basic scenario, you can use <code>setIntervalAsync</code> the same way you would use vanilla <code>setInterval</code>. For example, the following code:</p>
+<pre class="prettyprint source lang-javascript"><code>const {
+  setIntervalAsync,
+  clearIntervalAsync
+} = require('set-interval-async/dynamic')
+
+setIntervalAsync(
+  () => console.log('Hello'),
+  1000
+)</code></pre><p>will print 'Hello' to the console once every second. However, you can also provide an async function (or a function returning a promise):</p>
+<pre class="prettyprint source lang-javascript"><code>const timer = setIntervalAsync(
+  async () => {
+    console.log('Hello')
+    await doSomeWork()
+    console.log('Bye')
+  },
+  1000
+)
+
+// or equivalently
+
+const timer = setIntervalAsync(
+  () => {
+    console.log('Hello')
+    return doSomeWork().then(
+      () => console.log('Bye')
+    )
+  },
+  1000
+)</code></pre><p>which has the added nicety that now you can wait until the cycle is fully stopped before moving on by using <code>clearIntervalId</code>. This is particularly useful when, at the end of a unit test, you want to make sure that no asynchronous code continues running by the time your test manager moves on to the next one.</p>
+<pre class="prettyprint source lang-javascript"><code>it('should test something', async () => {
+  const timer = setIntervalAsync(/* some async function */, /* some interval */)
+  // Do some assertions.
+  await clearIntervalAsync(timer)
+  // At this point, all timers have been cleared, and the last
+  // execution is guaranteed to have finished as well.
+})</code></pre><p>Where <code>setIntervalAsync</code> really shines is in those situations where the given asynchronous function might take longer to compute than the configured interval and, at the same time, it's not safe to execute the function more than once at a time. Using vanilla <code>setInterval</code> will break your code in this scenario, whereas <code>setIntervalAsync</code> guarantees that the function will never execute more than once at the same time. For example, consider:</p>
+<pre class="prettyprint source lang-javascript"><code>async function processQueue (queue) {
+  if (queue.length === 0) {
+    return
+  }
+  let head = queue[0]
+  await doSomeWork(head)
+  queue.shift() // Removes the first element.
+}</code></pre><p>The function above should never get called again before the previous execution is completed. Otherwise, the queue's first element will get processed twice, and the second element will be skipped. However, with <code>setIntervalAsync</code>, the following is perfectly safe:</p>
+<pre class="prettyprint source lang-javascript"><code>setIntervalAsync(processQueue, 1000, queue)</code></pre><p>since <code>setIntervalAsync</code> will guarantee that the function is never executed more than once. You can choose whether you wish to use the <code>Dynamic</code> or <code>Fixed</code> flavors, which will either launch every execution as soon as possible or set a fixed delay between the end of one execution and the start of the next one. See <a href="#dynamic-and-fixed-setintervalasync">Dynamic and Fixed <code>setIntervalAsync</code></a> for more details.</p>
+<p>To see a full set of examples and instructions on how to run them, check out our <a href="https://github.com/ealmansi/set-interval-async/tree/master/examples">examples</a> directory.</p>
+<h1>Motivation</h1><p>If you've ever had to deal with weird, subtle bugs as a consequence of using <code>setInterval</code>[1] on asynchronous functions, or had to manually reimplement <code>setInterval</code> using <code>setTimeout</code>[2] to prevent multiple executions of the same asynchronous function from overlapping, then this library is a drop-in replacement that will solve your issues.</p>
 <p><code>setInterval</code> runs a given function repeateadly, once every fixed number of milliseconds. This may cause problems whenever the function takes longer to execute than the given interval, since it will be called again before the first execution finished. This is often a problem for non-reentrant functions; ie. functions that are not designed to allow multiple executions at the same time.</p>
 <p><code>setIntervalAsync</code> is a drop-in replacement of <code>setInterval</code> which shares the same API but is safe to use with non-reentrant, asynchronous functions. </p>
 <p>[1] https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout<br>
@@ -106,7 +153,6 @@ var clearIntervalAsync = SetIntervalAsync.clearIntervalAsync</code></pre><h1>Mot
 </li>
 </ul>
 <p>You can choose whichever strategy works best for your application. When in doubt, the <code>Dynamic</code> strategy will likely suffice for most use cases, keeping the interval as close as possible to the desired one.</p>
-<h1>Examples</h1><p>To see a full set of examples and how to run them, check out our <a href="https://github.com/ealmansi/set-interval-async/tree/master/examples">examples</a> directory.</p>
 <h1>Documentation</h1><p>You can browse the full API in our <a href="https://emilio.almansi.me/set-interval-async/">Documentation</a> page.</p>
 <h1>Contributing</h1><p>In order to contribute to this project, you will need to first clone the repository:</p>
 <pre class="prettyprint source lang-bash"><code>git clone https://github.com/ealmansi/set-interval-async.git</code></pre><p>Make sure that <a href="https://yarnpkg.com/en/">Yarn</a> is installed globally on your system,
@@ -132,7 +178,7 @@ yarn build</code></pre><p>Now, you can run the tests and make sure that everythi
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jan 16 2019 15:22:53 GMT-0300 (Argentina Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jan 16 2019 16:50:43 GMT-0300 (Argentina Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
