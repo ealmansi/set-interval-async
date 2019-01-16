@@ -25,6 +25,7 @@
     "@babel/preset-env": "7.2.3",
     "@babel/register": "7.0.0",
     "chai": "4.2.0",
+    "coveralls": "3.0.2",
     "jsdoc": "3.5.5",
     "lolex": "3.0.0",
     "mocha": "5.2.0",
@@ -50,6 +51,6 @@
     "docs": "jsdoc -d docs -R README.md src/",
     "lint": "standard src/**/*.js test/**/*.js rollup.config.js",
     "pretest": "yarn lint",
-    "test": "nyc mocha --require test/babel.js"
+    "test": "nyc mocha --require test/babel.js && nyc report --reporter=text-lcov | coveralls"
   }
 }
