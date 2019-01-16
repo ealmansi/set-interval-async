@@ -148,3 +148,7 @@ You can verify that your code follows the [JavaScript Standard Style](https://st
 ```bash
 yarn lint
 ```
+
+# License
+
+[MIT](https://raw.githubusercontent.com/ealmansi/set-interval-async/master/LICENSE)
