@@ -15,19 +15,19 @@ multiple executions from overlapping in time.
 
 You can install `setIntervalAsync` using npm:
 
-```
+```bash
 npm install -E set-interval-async
 ```
 
 Or using Yarn:
 
-```
+```bash
 yarn add -E set-interval-async
 ```
 
 Now, you can require `setIntervalAsync` in CommonJS:
 
-```
+```javascript
 // Choose one of the following flavors: dynamic, fixed, legacy.
 
 const { setIntervalAsync, clearIntervalAsync } = require('set-interval-async/dynamic')
@@ -46,7 +46,7 @@ const {
 
 Or else, you can use ES6 modules syntax:
 
-```
+```javascript
 // Choose one of the following flavors: dynamic, fixed, legacy.
 
 import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/dynamic'
@@ -71,14 +71,14 @@ const { setIntervalAsync: setIntervalAsyncL } = legacy
 
 In the browser, you can add a script tag in your HTML:
 
-```
+```html
 <script src="https://unpkg.com/set-interval-async"></script>
 ```
 
 After the script is loaded, a module `SetIntervalAsync` will be defined in the global context.
 Now, you can retrieve the `setIntervalAsync` function in any of its flavors:
 
-```
+```javascript
 // Choose one of the following flavors: dynamic, fixed, legacy.
 
 var setIntervalAsync = SetIntervalAsync.dynamic.setIntervalAsync
@@ -116,21 +116,21 @@ var clearIntervalAsync = SetIntervalAsync.clearIntervalAsync
 
 In order to contribute to this project, you will need to first clone the repository:
 
-```
+```bash
 git clone https://github.com/ealmansi/set-interval-async.git
 ```
 
 Make sure that [Yarn](https://yarnpkg.com/en/) is installed globally on your system,
 install all project dependencies, and build the project:
 
-```
+```bash
 yarn
 yarn build
 ```
 
 Now, you can run the tests and make sure that everything is up and running correctly:
 
-```
+```bash
 yarn test
 ```
 
@@ -138,6 +138,6 @@ If the previous step succeeds, you're ready to start developing on this project.
 
 You can verify that your code follows the [JavaScript Standard Style](https://standardjs.com/) with the following command:
 
-```
+```bash
 yarn lint
 ```
