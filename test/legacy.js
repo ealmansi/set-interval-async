@@ -4,26 +4,32 @@
  * For a copy, see the file LICENSE in the root directory.
  */
 
-import lolex from 'lolex'
-import { executeRuntimeTest } from './util/runtime-test'
 import {
   setIntervalAsync,
   clearIntervalAsync
 } from '../legacy'
+import { assert } from 'chai'
+import { executeRuntimeTest } from './util/runtime-test'
+import BluebirdPromise from 'bluebird'
+import lolex from 'lolex'
 
 describe('Legacy setIntervalAsync', async () => {
 
-  let originalSetImmediate = setImmediate
+  let OriginalPromise = Promise
   let clock = null
 
   beforeEach(async () => {
     clock = lolex.install()
+    Promise = BluebirdPromise
+    Promise.setScheduler((fn) => fn())
   })
 
   afterEach(async () => {
     if (clock !== null) {
       clock.uninstall()
     }
+    clock = null
+    Promise = OriginalPromise
   })
 
   it('should start and stop successfully with a synchronous handler', async () => {
@@ -40,6 +46,23 @@ describe('Legacy setIntervalAsync', async () => {
       1000
     )
     await clearIntervalAsync(timer)
+  })
+
+  it('should continue running even if an execution ends in error', async () => {
+    let expectedCount = 5
+    let actualCount = 0
+    let timer = setIntervalAsync(
+      async () => {
+        actualCount = actualCount + 1
+        throw new Error()
+      },
+      1000
+    )
+    for (let i = 0; i < expectedCount; ++i) {
+      clock.runToLast()
+    }
+    await clearIntervalAsync(timer)
+    assert.equal(actualCount, expectedCount)
   })
 
   it([
@@ -68,8 +91,7 @@ describe('Legacy setIntervalAsync', async () => {
       ],
       setIntervalAsync,
       clearIntervalAsync,
-      clock,
-      originalSetImmediate
+      clock
     )
   })
 
@@ -97,8 +119,7 @@ describe('Legacy setIntervalAsync', async () => {
       ],
       setIntervalAsync,
       clearIntervalAsync,
-      clock,
-      originalSetImmediate
+      clock
     )
   })
 
@@ -130,8 +151,7 @@ describe('Legacy setIntervalAsync', async () => {
       ],
       setIntervalAsync,
       clearIntervalAsync,
-      clock,
-      originalSetImmediate
+      clock
     )
   })
 
@@ -162,8 +182,7 @@ describe('Legacy setIntervalAsync', async () => {
       ],
       setIntervalAsync,
       clearIntervalAsync,
-      clock,
-      originalSetImmediate
+      clock
     )
   })
 

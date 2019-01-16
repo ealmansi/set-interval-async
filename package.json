@@ -43,6 +43,7 @@
     "@babel/plugin-transform-runtime": "7.2.0",
     "@babel/preset-env": "7.2.3",
     "@babel/register": "7.0.0",
+    "bluebird": "3.5.3",
     "chai": "4.2.0",
     "coveralls": "3.0.2",
     "jsdoc": "3.5.5",

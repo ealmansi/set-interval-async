@@ -40,6 +40,8 @@ function setIntervalAsync (handler, interval, ...args) {
           startTime = new Date()
           return handler(...args)
         }
+      ).catch(
+        () => {}
       ).then(
         () => {
           endTime = new Date()
