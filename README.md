@@ -90,6 +90,82 @@ var setIntervalAsync = SetIntervalAsync.legacy.setIntervalAsync
 var clearIntervalAsync = SetIntervalAsync.clearIntervalAsync
 ```
 
+# Usage
+
+In the most basic scenario, you can use `setIntervalAsync` the same way you would use vanilla `setInterval`. For example, the following code:
+
+```javascript
+const {
+  setIntervalAsync,
+  clearIntervalAsync
+} = require('set-interval-async/dynamic')
+
+setIntervalAsync(
+  () => console.log('Hello'),
+  1000
+)
+```
+
+will print 'Hello' to the console once every second. However, you can also provide an async function (or a function returning a promise):
+
+```javascript
+const timer = setIntervalAsync(
+  async () => {
+    console.log('Hello')
+    await doSomeWork()
+    console.log('Bye')
+  },
+  1000
+)
+
+// or equivalently
+
+const timer = setIntervalAsync(
+  () => {
+    console.log('Hello')
+    return doSomeWork().then(
+      () => console.log('Bye')
+    )
+  },
+  1000
+)
+```
+
+which has the added nicety that now you can wait until the cycle is fully stopped before moving on by using `clearIntervalId`. This is particularly useful when, at the end of a unit test, you want to make sure that no asynchronous code continues running by the time your test manager moves on to the next one.
+
+```javascript
+it('should test something', async () => {
+  const timer = setIntervalAsync(/* some async function */, /* some interval */)
+  // Do some assertions.
+  await clearIntervalAsync(timer)
+  // At this point, all timers have been cleared, and the last
+  // execution is guaranteed to have finished as well.
+})
+```
+
+Where `setIntervalAsync` really shines is in those situations where the given asynchronous function might take longer to compute than the configured interval and, at the same time, it's not safe to execute the function more than once at a time. Using vanilla `setInterval` will break your code in this scenario, whereas `setIntervalAsync` guarantees that the function will never execute more than once at the same time. For example, consider:
+
+```javascript
+async function processQueue (queue) {
+  if (queue.length === 0) {
+    return
+  }
+  let head = queue[0]
+  await doSomeWork(head)
+  queue.shift() // Removes the first element.
+}
+```
+
+The function above should never get called again before the previous execution is completed. Otherwise, the queue's first element will get processed twice, and the second element will be skipped. However, with `setIntervalAsync`, the following is perfectly safe:
+
+```javascript
+setIntervalAsync(processQueue, 1000, queue)
+```
+
+since `setIntervalAsync` will guarantee that the function is never executed more than once. You can choose whether you wish to use the `Dynamic` or `Fixed` flavors, which will either launch every execution as soon as possible or set a fixed delay between the end of one execution and the start of the next one. See [Dynamic and Fixed `setIntervalAsync`](#dynamic-and-fixed-setintervalasync) for more details.
+
+To see a full set of examples and instructions on how to run them, check out our [examples](https://github.com/ealmansi/set-interval-async/tree/master/examples) directory.
+
 # Motivation
 
 If you've ever had to deal with weird, subtle bugs as a consequence of using `setInterval`[1] on asynchronous functions, or had to manually reimplement `setInterval` using `setTimeout`[2] to prevent multiple executions of the same asynchronous function from overlapping, then this library is a drop-in replacement that will solve your issues.
@@ -110,10 +186,6 @@ If you've ever had to deal with weird, subtle bugs as a consequence of using `se
 - **Fixed**: The given function is called repeatedly, guaranteeing a fixed delay of `interval` milliseconds between the end of one execution and the start of the following one.<br><br>![Fixed setIntervalAsync diagram.](https://github.com/ealmansi/set-interval-async/raw/master/assets/fixed.png)
 
 You can choose whichever strategy works best for your application. When in doubt, the `Dynamic` strategy will likely suffice for most use cases, keeping the interval as close as possible to the desired one.
-
-# Examples
-
-To see a full set of examples and how to run them, check out our [examples](https://github.com/ealmansi/set-interval-async/tree/master/examples) directory.
 
 # Documentation
 
