@@ -1,6 +1,6 @@
-let { assert } = require('chai')
+import { assert } from 'chai'
 
-async function executeRuntimeTest (
+export async function executeRuntimeTest (
   interval,
   getExecutionTime,
   expectedCounts,
@@ -66,8 +66,4 @@ async function tick (
   clock.tick(milliseconds - 1)
   await new Promise(resolve => originalSetImmediate(resolve))
   return clock.tick(1)
-}
-
-module.exports = {
-  executeRuntimeTest
 }

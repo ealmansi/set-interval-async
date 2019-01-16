@@ -1,11 +1,12 @@
-let lolex = require('lolex')
-let {
+import lolex from 'lolex'
+import { executeRuntimeTest } from './util/runtime-test'
+import {
   setIntervalAsync,
   clearIntervalAsync
-} = require('../dynamic')
-let { executeRuntimeTest } = require('./util/runtime-test')
+} from '../dynamic'
 
 describe('Dynamic setIntervalAsync', async () => {
+
   let originalSetImmediate = setImmediate
   let clock = null
 
@@ -136,4 +137,5 @@ describe('Dynamic setIntervalAsync', async () => {
       originalSetImmediate
     )
   })
+
 })

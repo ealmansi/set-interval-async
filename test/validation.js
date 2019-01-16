@@ -1,9 +1,13 @@
-let { assert } = require('chai')
-let {
-  dynamic: { setIntervalAsync: setIntervalAsyncD },
-  fixed: { setIntervalAsync: setIntervalAsyncF },
-  legacy: { setIntervalAsync: setIntervalAsyncL }
-} = require('..')
+import { assert } from 'chai'
+import {
+  dynamic,
+  fixed,
+  legacy
+} from '..'
+
+let { setIntervalAsync: setIntervalAsyncD } = dynamic
+let { setIntervalAsync: setIntervalAsyncF } = fixed
+let { setIntervalAsync: setIntervalAsyncL } = legacy
 
 describe('Validation', async () => {
 
@@ -54,4 +58,5 @@ describe('Validation', async () => {
       )
     }
   })
+
 })

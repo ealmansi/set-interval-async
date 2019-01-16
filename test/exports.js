@@ -1,24 +1,30 @@
-let { assert } = require('chai')
-let {
-  dynamic: { setIntervalAsync: setIntervalAsyncD1 },
-  fixed: { setIntervalAsync: setIntervalAsyncF1 },
-  legacy: { setIntervalAsync: setIntervalAsyncL1 },
+import { assert } from 'chai'
+import {
+  dynamic,
+  fixed,
+  legacy,
   clearIntervalAsync
-} = require('..')
-let {
-  setIntervalAsync: setIntervalAsyncD2,
-  clearIntervalAsync: clearIntervalAsyncD
-} = require('../dynamic')
-let {
-  setIntervalAsync: setIntervalAsyncF2,
-  clearIntervalAsync: clearIntervalAsyncF
-} = require('../fixed')
-let {
-  setIntervalAsync: setIntervalAsyncL2,
-  clearIntervalAsync: clearIntervalAsyncL
-} = require('../legacy')
+} from '..'
+import {
+  setIntervalAsync as setIntervalAsyncD2,
+  clearIntervalAsync as clearIntervalAsyncD
+} from '../dynamic'
+import {
+  setIntervalAsync as setIntervalAsyncF2,
+  clearIntervalAsync as clearIntervalAsyncF
+} from '../fixed'
+import {
+  setIntervalAsync as setIntervalAsyncL2,
+  clearIntervalAsync as clearIntervalAsyncL
+} from '../legacy'
+import { getFunctionBody } from './util/get-function-body'
+
+let { setIntervalAsync: setIntervalAsyncD1 } = dynamic
+let { setIntervalAsync: setIntervalAsyncF1 } = fixed
+let { setIntervalAsync: setIntervalAsyncL1 } = legacy
 
 describe('Exports', async () => {
+
   it('should have the correct type', async () => {
     assert.typeOf(setIntervalAsyncD1, 'function')
     assert.typeOf(setIntervalAsyncD2, 'function')
@@ -58,15 +64,5 @@ describe('Exports', async () => {
       getFunctionBody(clearIntervalAsyncL)
     )
   })
-})
 
-function getFunctionBody (fn) {
-  let fnString = fn.toString()
-  return fnString
-    .slice(
-      fnString.indexOf('{') + 1,
-      fnString.lastIndexOf('}')
-    )
-    .replace(/\bcov_[a-z0-9]+\b/g, '')
-    .replace(/\[[0-9]+\]/g, '')
-}
+})

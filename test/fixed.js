@@ -1,11 +1,12 @@
-let lolex = require('lolex')
-let {
+import lolex from 'lolex'
+import { executeRuntimeTest } from './util/runtime-test'
+import {
   setIntervalAsync,
   clearIntervalAsync
-} = require('../fixed')
-let { executeRuntimeTest } = require('./util/runtime-test')
+} from '../fixed'
 
 describe('Fixed setIntervalAsync', async () => {
+
   let originalSetImmediate = setImmediate
   let clock = null
 
@@ -126,4 +127,5 @@ describe('Fixed setIntervalAsync', async () => {
       originalSetImmediate
     )
   })
+
 })

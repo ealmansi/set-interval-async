@@ -1,11 +1,12 @@
-let lolex = require('lolex')
-let {
+import lolex from 'lolex'
+import { executeRuntimeTest } from './util/runtime-test'
+import {
   setIntervalAsync,
   clearIntervalAsync
-} = require('../legacy')
-let { executeRuntimeTest } = require('./util/runtime-test')
+} from '../legacy'
 
 describe('Legacy setIntervalAsync', async () => {
+
   let originalSetImmediate = setImmediate
   let clock = null
 
@@ -159,4 +160,5 @@ describe('Legacy setIntervalAsync', async () => {
       originalSetImmediate
     )
   })
+
 })
