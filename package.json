@@ -1,6 +1,6 @@
 {
   "name": "set-interval-async",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Modern setInterval for async functions with reentrancy protection.",
   "repository": {
     "type": "git",
@@ -51,6 +51,7 @@
     "docs": "jsdoc -d docs -R README.md src/",
     "lint": "standard src/**/*.js test/**/*.js rollup.config.js",
     "pretest": "yarn lint",
-    "test": "nyc mocha --require test/babel.js"
+    "test": "nyc mocha --require test/babel.js",
+    "prepublishOnly": "yarn clean && yarn build && yarn test && yarn docs"
   }
 }
