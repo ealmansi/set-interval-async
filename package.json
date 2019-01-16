@@ -40,8 +40,7 @@
   "scripts": {
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
-    "test": "nyc mocha --require @babel/register",
-    "clean": "rimraf set-interval-async.* dynamic fixed legacy .nyc_output",
-    "prepublish": "yarn clean && yarn build && yarn test"
+    "test": "nyc mocha --require test/babel.js",
+    "clean": "rimraf set-interval-async.* dynamic fixed legacy .nyc_output"
   }
 }
