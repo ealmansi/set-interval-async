@@ -19,12 +19,13 @@ import SetIntervalAsyncTimer from './timer'
  * @param {function} handler - Handler function to be executed in intervals.<br>
  *                             May be asynchronous.
  * @param {number} interval - Interval in milliseconds. Must be at least 10 ms.
+ * @param {...*} args - Any number of arguments to pass on to the handler.
  * @returns {SetIntervalAsyncTimer}
  *          A timer object which can be used to stop execution with {@link clearIntervalAsync}.
  *
  * @alias [Dynamic] setIntervalAsync
  */
-function setIntervalAsync (handler, interval) {
+function setIntervalAsync (handler, interval, ...args) {
   validateHandler(handler)
   validateInterval(interval)
   let timer = new SetIntervalAsyncTimer()
@@ -37,7 +38,7 @@ function setIntervalAsync (handler, interval) {
       ).then(
         () => {
           startTime = new Date()
-          return handler()
+          return handler(...args)
         }
       ).then(
         () => {
