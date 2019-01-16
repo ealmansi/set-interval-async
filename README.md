@@ -30,9 +30,10 @@ Now, you can require `setIntervalAsync` in CommonJS:
 ```javascript
 // Choose one of the following flavors: dynamic, fixed, legacy.
 
-const { setIntervalAsync, clearIntervalAsync } = require('set-interval-async/dynamic')
-const { setIntervalAsync, clearIntervalAsync } = require('set-interval-async/fixed')
-const { setIntervalAsync, clearIntervalAsync } = require('set-interval-async/legacy')
+const { setIntervalAsync } = require('set-interval-async/dynamic')
+const { setIntervalAsync } = require('set-interval-async/fixed')
+const { setIntervalAsync } = require('set-interval-async/legacy')
+const { clearIntervalAsync } = require('set-interval-async')
 
 // Or require all at once:
 
@@ -49,9 +50,10 @@ Or else, you can use ES6 modules syntax:
 ```javascript
 // Choose one of the following flavors: dynamic, fixed, legacy.
 
-import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/dynamic'
-import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/fixed'
-import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/legacy'
+import { setIntervalAsync } from 'set-interval-async/dynamic'
+import { setIntervalAsync } from 'set-interval-async/fixed'
+import { setIntervalAsync } from 'set-interval-async/legacy'
+import { clearIntervalAsync } from 'set-interval-async'
 
 // Import all at once:
 
@@ -135,7 +137,10 @@ which has the added nicety that now you can wait until the cycle is fully stoppe
 
 ```javascript
 it('should test something', async () => {
-  const timer = setIntervalAsync(/* some async function */, /* some interval */)
+  const timer = setIntervalAsync(
+    /* some async function */,
+    /* some interval */
+  )
   // Do some assertions.
   await clearIntervalAsync(timer)
   // At this point, all timers have been cleared, and the last
@@ -143,7 +148,7 @@ it('should test something', async () => {
 })
 ```
 
-Where `setIntervalAsync` really shines is in those situations where the given asynchronous function might take longer to compute than the configured interval and, at the same time, it's not safe to execute the function more than once at a time. Using vanilla `setInterval` will break your code in this scenario, whereas `setIntervalAsync` guarantees that the function will never execute more than once at the same time. For example, consider:
+Where `setIntervalAsync` really shines is in those situations where the given asynchronous function might take longer to compute than the configured interval and, at the same time, is not safe to execute more than once at a time. Using vanilla `setInterval` will break your code in this scenario, whereas `setIntervalAsync` guarantees that the function will never execute more than once at the same time. For example, consider:
 
 ```javascript
 async function processQueue (queue) {
@@ -162,7 +167,7 @@ The function above should never get called again before the previous execution i
 setIntervalAsync(processQueue, 1000, queue)
 ```
 
-since `setIntervalAsync` will guarantee that the function is never executed more than once. You can choose whether you wish to use the `Dynamic` or `Fixed` flavors, which will either launch every execution as soon as possible or set a fixed delay between the end of one execution and the start of the next one. See [Dynamic and Fixed `setIntervalAsync`](#dynamic-and-fixed-setintervalasync) for more details.
+since `setIntervalAsync` will guarantee that the function is never executed more than once at any given moment. You can choose whether you wish to use the `Dynamic` or `Fixed` flavors, which will either launch every execution as soon as possible or set a fixed delay between the end of one execution and the start of the next one. See [Dynamic and Fixed `setIntervalAsync`](#dynamic-and-fixed-setintervalasync) for more details.
 
 To see a full set of examples and instructions on how to run them, check out our [examples](https://github.com/ealmansi/set-interval-async/tree/master/examples) directory.
 
