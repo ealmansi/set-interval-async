@@ -21,6 +21,7 @@
     "@babel/preset-env": "7.2.3",
     "@babel/register": "7.0.0",
     "chai": "4.2.0",
+    "jsdoc": "3.5.5",
     "lolex": "3.0.0",
     "mocha": "5.2.0",
     "nyc": "13.1.0",
@@ -41,6 +42,7 @@
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
     "test": "nyc mocha --require test/babel.js",
-    "clean": "rimraf set-interval-async.* dynamic fixed legacy .nyc_output"
+    "clean": "rimraf set-interval-async.* dynamic fixed legacy .nyc_output docs",
+    "docs": "jsdoc src/ -d docs"
   }
 }
