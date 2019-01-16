@@ -2,6 +2,10 @@
   "name": "set-interval-async",
   "version": "1.0.3",
   "description": "Modern setInterval for async functions with reentrancy protection.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ealmansi/set-interval-async"
+  },
   "main": "dist/set-interval-async.cjs.js",
   "module": "dist/set-interval-async.esm.mjs",
   "unpkg": "dist/set-interval-async.iife.js",
