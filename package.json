@@ -4,8 +4,15 @@
   "description": "Modern setInterval for async functions with reentrancy protection.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ealmansi/set-interval-async"
+    "url": "https://github.com/ealmansi/set-interval-async.git"
   },
+  "homepage": "https://github.com/ealmansi/set-interval-async",
+  "keywords": [
+    "setInterval", "setTimeout", "clearInterval", "clearTimeout",
+    "interval", "timeout", "milliseconds", "seconds",
+    "promise", "promises", "async", "asynchronous", "await",
+    "recurrent", "concurrency", "reentrancy"
+  ],
   "main": "dist/set-interval-async.cjs.js",
   "module": "dist/set-interval-async.esm.mjs",
   "unpkg": "dist/set-interval-async.iife.js",
