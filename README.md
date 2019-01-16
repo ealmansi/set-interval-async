@@ -105,9 +105,9 @@ If you've ever had to deal with weird, subtle bugs as a consequence of using `se
 
 `setIntervalAsync` provides two strategies which can be used to prevent a recurring function from executing more than once at any given moment:
 
-- **Dynamic**: If possible, the given function is called once every `interval` milliseconds. If any execution takes longer than the desired interval, the next execution is delayed until the previous one has finished, and called immediately after this condition is reached.
+- **Dynamic**: If possible, the given function is called once every `interval` milliseconds. If any execution takes longer than the desired interval, the next execution is delayed until the previous one has finished, and called immediately after this condition is reached.<br><br>![Dynamic setIntervalAsync diagram.](https://github.com/ealmansi/set-interval-async/raw/master/assets/dynamic.png)
 
-- **Fixed**: The given function is called repeatedly, guaranteeing a fixed delay of `interval` milliseconds between the end of one execution and the start of the following one.
+- **Fixed**: The given function is called repeatedly, guaranteeing a fixed delay of `interval` milliseconds between the end of one execution and the start of the following one.<br><br>![Fixed setIntervalAsync diagram.](https://github.com/ealmansi/set-interval-async/raw/master/assets/fixed.png)
 
 # Examples
 
