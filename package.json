@@ -51,6 +51,6 @@
     "docs": "jsdoc -d docs -R README.md src/",
     "lint": "standard src/**/*.js test/**/*.js rollup.config.js",
     "pretest": "yarn lint",
-    "test": "nyc mocha --require test/babel.js && nyc report --reporter=text-lcov | coveralls"
+    "test": "nyc mocha --require test/babel.js"
   }
 }
