@@ -2,13 +2,105 @@
 
 Modern version of [setInterval](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval) for promises and async functions.
 
-[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard) [![NPM](https://nodei.co/npm/set-interval-async.png)](https://nodei.co/npm/set-interval-async/)
+`setIntervalAsync` works both on Node.js and in the browser, providing the same <br>
+familiar interface as `setInterval` for asynchronous functions, while preventing<br>
+multiple executions from overlapping in time.
 
-# Installation
+
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard) [![NPM](https://nodei.co/npm/set-interval-async.png)](https://nodei.co/npm/set-interval-async/)
 
 # Getting Started
 
-# API
+## Node.js
+
+You can install `setIntervalAsync` using npm:
+
+```
+npm install -E set-interval-async
+```
+
+Or using Yarn:
+
+```
+yarn add -E set-interval-async
+```
+
+Now, you can require `setIntervalAsync` in CommonJS:
+
+```
+// Choose one of the following flavors: dynamic, fixed, legacy.
+
+const { setIntervalAsync, clearIntervalAsync } = require('set-interval-async/dynamic')
+const { setIntervalAsync, clearIntervalAsync } = require('set-interval-async/fixed')
+const { setIntervalAsync, clearIntervalAsync } = require('set-interval-async/legacy')
+
+// Or require all at once:
+
+const {
+  dynamic: { setIntervalAsync: setIntervalAsyncD },
+  fixed: { setIntervalAsync: setIntervalAsyncF },
+  legacy: { setIntervalAsync: setIntervalAsyncL },
+  clearIntervalAsync
+} = require('set-interval-async')
+```
+
+Or else, you can use ES6 modules syntax:
+
+```
+// Choose one of the following flavors: dynamic, fixed, legacy.
+
+import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/dynamic'
+import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/fixed'
+import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/legacy'
+
+// Import all at once:
+
+import {
+  dynamic,
+  fixed,
+  legacy,
+  clearIntervalAsync
+} from 'set-interval-async'
+const { setIntervalAsync: setIntervalAsyncD } = dynamic
+const { setIntervalAsync: setIntervalAsyncF } = fixed
+const { setIntervalAsync: setIntervalAsyncL } = legacy
+
+```
+
+## Browser
+
+In the browser, you can add a script tag in your HTML:
+
+```
+<script src="https://unpkg.com/set-interval-async"></script>
+```
+
+After the script is loaded, a module `SetIntervalAsync` will be defined in the global context.
+Now, you can retrieve the `setIntervalAsync` function in any of its flavors:
+
+```
+// Choose one of the following flavors: dynamic, fixed, legacy.
+
+var setIntervalAsync = SetIntervalAsync.dynamic.setIntervalAsync
+var setIntervalAsync = SetIntervalAsync.fixed.setIntervalAsync
+var setIntervalAsync = SetIntervalAsync.legacy.setIntervalAsync
+
+// Load `clearIntervalAsync` as well.
+
+var clearIntervalAsync = SetIntervalAsync.clearIntervalAsync
+```
+
+# Motivation
+
+# Dynamic, Fixed, and Legacy `setIntervalAsync`
+
+## Dynamic
+
+## Fixed
+
+## Legacy
+
+# Examples
 
 ## [Dynamic] setIntervalAsync
 
@@ -21,3 +113,31 @@ Modern version of [setInterval](https://developer.mozilla.org/en-US/docs/Web/API
 # Documentation
 
 # Contributing
+
+In order to contribute to this project, you will need to first clone the repository:
+
+```
+git clone https://github.com/ealmansi/set-interval-async.git
+```
+
+Make sure that [Yarn](https://yarnpkg.com/en/) is installed globally on your system,
+install all project dependencies, and build the project:
+
+```
+yarn
+yarn build
+```
+
+Now, you can run the tests and make sure that everything is up and running correctly:
+
+```
+yarn test
+```
+
+If the previous step succeeds, you're ready to start developing on this project. <br>Pull requests are welcome!
+
+You can verify that your code follows the [JavaScript Standard Style](https://standardjs.com/) with the following command:
+
+```
+yarn lint
+```
