@@ -109,15 +109,11 @@ If you've ever had to deal with weird, subtle bugs as a consequence of using `se
 
 - **Fixed**: The given function is called repeatedly, guaranteeing a fixed delay of `interval` milliseconds between the end of one execution and the start of the following one.<br><br>![Fixed setIntervalAsync diagram.](https://github.com/ealmansi/set-interval-async/raw/master/assets/fixed.png)
 
+You can choose whichever strategy works best for your application. When in doubt, the `Dynamic` strategy will likely suffice for most use cases, keeping the interval as close as possible to the desired one.
+
 # Examples
 
-## [Dynamic] setIntervalAsync
-
-## [Fixed] setIntervalAsync
-
-## [Legacy] setIntervalAsync
-
-## clearIntervalAsync
+To see a full set of examples and how to run them, check out our [examples](https://github.com/ealmansi/set-interval-async/tree/master/examples) directory.
 
 # Documentation
 

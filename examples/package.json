@@ -1,0 +1,18 @@
+{
+  "name": "set-interval-async-examples",
+  "version": "1.0.0",
+  "description": "Examples of setIntervalAsync usage.",
+  "main": "index.js",
+  "repository": "https://github.com/ealmansi/set-interval-async.git",
+  "author": "Emilio Almansi",
+  "license": "MIT",
+  "dependencies": {
+    "set-interval-async": "1.0.8"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "7.2.0",
+    "@babel/preset-env": "7.2.3",
+    "@babel/register": "7.0.0",
+    "http-server": "0.11.1"
+  }
+}
