@@ -7,7 +7,7 @@ familiar interface as `setInterval` for asynchronous functions, while preventing
 multiple executions from overlapping in time.
 
 
-[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard) [![NPM](https://nodei.co/npm/set-interval-async.png)](https://nodei.co/npm/set-interval-async/)
+[![NPM](https://nodei.co/npm/set-interval-async.png)](https://nodei.co/npm/set-interval-async/) [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
 # Getting Started
 
@@ -92,13 +92,22 @@ var clearIntervalAsync = SetIntervalAsync.clearIntervalAsync
 
 # Motivation
 
-# Dynamic, Fixed, and Legacy `setIntervalAsync`
+If you've ever had to deal with weird, subtle bugs as a consequence of using `setInterval`[1] on asynchronous functions, or had to manually reimplement `setInterval` using `setTimeout`[2] to prevent multiple executions of the same asynchronous function from overlapping, then this library is a drop-in replacement that will solve your issues.
 
-## Dynamic
+`setInterval` runs a given function repeateadly, once every fixed number of milliseconds. This may cause problems whenever the function takes longer to execute than the given interval, since it will be called again before the first execution finished. This is often a problem for non-reentrant functions; ie. functions that are not designed to allow multiple executions at the same time.
 
-## Fixed
+`setIntervalAsync` is a drop-in replacement of `setInterval` which shares the same API but is safe to use with non-reentrant, asynchronous functions. 
 
-## Legacy
+[1] https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout<br>
+[2] https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval
+
+# Dynamic and Fixed `setIntervalAsync`
+
+`setIntervalAsync` provides two strategies which can be used to prevent a recurring function from executing more than once at any given moment:
+
+- **Dynamic**: If possible, the given function is called once every `interval` milliseconds. If any execution takes longer than the desired interval, the next execution is delayed until the previous one has finished, and called immediately after this condition is reached.
+
+- **Fixed**: The given function is called repeatedly, guaranteeing a fixed delay of `interval` milliseconds between the end of one execution and the start of the following one.
 
 # Examples
 
