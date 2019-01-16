@@ -65,3 +65,7 @@ dist/
 dynamic/
 fixed/
 legacy/
+
+!examples/dynamic/
+!examples/fixed/
+!examples/legacy/
