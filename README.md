@@ -112,6 +112,8 @@ var clearIntervalAsync = SetIntervalAsync.clearIntervalAsync
 
 # Documentation
 
+You can browse the full API in our [Documentation](https://emilio.almansi.me/set-interval-async/) page.
+
 # Contributing
 
 In order to contribute to this project, you will need to first clone the repository:

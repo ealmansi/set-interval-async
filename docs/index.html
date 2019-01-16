@@ -43,10 +43,65 @@
 
 
     <section>
-        <article><h1><code>setIntervalAsync</code>: setInterval for modern JavaScript</h1><p>Modern version of <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval">setInterval</a> for asynchronous functions with reentrancy protection.</p>
+        <article><h1><code>setIntervalAsync</code>  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square" alt="License: MIT"></a> <a href="https://badge.fury.io/js/set-interval-async"><img src="https://img.shields.io/npm/v/set-interval-async.svg?style=flat-square" alt="npm version"></a> <a href="https://travis-ci.org/ealmansi/set-interval-async"><img src="https://img.shields.io/travis/ealmansi/set-interval-async.svg?style=flat-square" alt="Build Status"></a> <a href="https://coveralls.io/github/ealmansi/set-interval-async?branch=master"><img src="https://img.shields.io/coveralls/github/ealmansi/set-interval-async.svg?style=flat-square" alt="Coverage Status"></a>  <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs Welcome"></a></h1><p>Modern version of <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval">setInterval</a> for promises and async functions.</p>
+<p><code>setIntervalAsync</code> works both on Node.js and in the browser, providing the same <br>
+familiar interface as <code>setInterval</code> for asynchronous functions, while preventing<br>
+multiple executions from overlapping in time.</p>
 <p><a href="https://github.com/standard/standard"><img src="https://cdn.rawgit.com/standard/standard/master/badge.svg" alt="JavaScript Style Guide"></a> <a href="https://nodei.co/npm/set-interval-async/"><img src="https://nodei.co/npm/set-interval-async.png" alt="NPM"></a></p>
-<p><a href="https://badge.fury.io/js/set-interval-async"><img src="https://badge.fury.io/js/set-interval-async.svg" alt="npm version"></a> <a href="https://travis-ci.org/ealmansi/set-interval-async"><img src="https://travis-ci.org/ealmansi/set-interval-async.svg?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/github/ealmansi/set-interval-async?branch=master"><img src="https://coveralls.io/repos/github/ealmansi/set-interval-async/badge.svg?branch=master" alt="Coverage Status"></a></p>
-<h1>Installation</h1><h1>Getting Started</h1><h1>API</h1><h2>[Dynamic] setIntervalAsync</h2><h2>[Fixed] setIntervalAsync</h2><h2>[Legacy] setIntervalAsync</h2><h2>clearIntervalAsync</h2><h1>Documentation</h1><h1>Contributing</h1></article>
+<h1>Getting Started</h1><h2>Node.js</h2><p>You can install <code>setIntervalAsync</code> using npm:</p>
+<pre class="prettyprint source lang-bash"><code>npm install -E set-interval-async</code></pre><p>Or using Yarn:</p>
+<pre class="prettyprint source lang-bash"><code>yarn add -E set-interval-async</code></pre><p>Now, you can require <code>setIntervalAsync</code> in CommonJS:</p>
+<pre class="prettyprint source lang-javascript"><code>// Choose one of the following flavors: dynamic, fixed, legacy.
+
+const { setIntervalAsync, clearIntervalAsync } = require('set-interval-async/dynamic')
+const { setIntervalAsync, clearIntervalAsync } = require('set-interval-async/fixed')
+const { setIntervalAsync, clearIntervalAsync } = require('set-interval-async/legacy')
+
+// Or require all at once:
+
+const {
+  dynamic: { setIntervalAsync: setIntervalAsyncD },
+  fixed: { setIntervalAsync: setIntervalAsyncF },
+  legacy: { setIntervalAsync: setIntervalAsyncL },
+  clearIntervalAsync
+} = require('set-interval-async')</code></pre><p>Or else, you can use ES6 modules syntax:</p>
+<pre class="prettyprint source lang-javascript"><code>// Choose one of the following flavors: dynamic, fixed, legacy.
+
+import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/dynamic'
+import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/fixed'
+import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/legacy'
+
+// Import all at once:
+
+import {
+  dynamic,
+  fixed,
+  legacy,
+  clearIntervalAsync
+} from 'set-interval-async'
+const { setIntervalAsync: setIntervalAsyncD } = dynamic
+const { setIntervalAsync: setIntervalAsyncF } = fixed
+const { setIntervalAsync: setIntervalAsyncL } = legacy
+</code></pre><h2>Browser</h2><p>In the browser, you can add a script tag in your HTML:</p>
+<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://unpkg.com/set-interval-async&quot;>&lt;/script></code></pre><p>After the script is loaded, a module <code>SetIntervalAsync</code> will be defined in the global context.
+Now, you can retrieve the <code>setIntervalAsync</code> function in any of its flavors:</p>
+<pre class="prettyprint source lang-javascript"><code>// Choose one of the following flavors: dynamic, fixed, legacy.
+
+var setIntervalAsync = SetIntervalAsync.dynamic.setIntervalAsync
+var setIntervalAsync = SetIntervalAsync.fixed.setIntervalAsync
+var setIntervalAsync = SetIntervalAsync.legacy.setIntervalAsync
+
+// Load `clearIntervalAsync` as well.
+
+var clearIntervalAsync = SetIntervalAsync.clearIntervalAsync</code></pre><h1>Motivation</h1><h1>Dynamic, Fixed, and Legacy <code>setIntervalAsync</code></h1><h2>Dynamic</h2><h2>Fixed</h2><h2>Legacy</h2><h1>Examples</h1><h2>[Dynamic] setIntervalAsync</h2><h2>[Fixed] setIntervalAsync</h2><h2>[Legacy] setIntervalAsync</h2><h2>clearIntervalAsync</h2><h1>Documentation</h1><p>You can browse the full API in our <a href="https://emilio.almansi.me/set-interval-async/">Documentation</a> page.</p>
+<h1>Contributing</h1><p>In order to contribute to this project, you will need to first clone the repository:</p>
+<pre class="prettyprint source lang-bash"><code>git clone https://github.com/ealmansi/set-interval-async.git</code></pre><p>Make sure that <a href="https://yarnpkg.com/en/">Yarn</a> is installed globally on your system,
+install all project dependencies, and build the project:</p>
+<pre class="prettyprint source lang-bash"><code>yarn
+yarn build</code></pre><p>Now, you can run the tests and make sure that everything is up and running correctly:</p>
+<pre class="prettyprint source lang-bash"><code>yarn test</code></pre><p>If the previous step succeeds, you're ready to start developing on this project. <br>Pull requests are welcome!</p>
+<p>You can verify that your code follows the <a href="https://standardjs.com/">JavaScript Standard Style</a> with the following command:</p>
+<pre class="prettyprint source lang-bash"><code>yarn lint</code></pre></article>
     </section>
 
 
@@ -63,7 +118,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jan 16 2019 00:58:31 GMT-0300 (Argentina Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jan 16 2019 09:57:55 GMT-0300 (Argentina Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
