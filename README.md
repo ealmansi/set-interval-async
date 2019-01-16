@@ -1,6 +1,6 @@
 # `setIntervalAsync`<br>[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT) [![npm version](https://img.shields.io/npm/v/set-interval-async.svg?style=flat-square)](https://badge.fury.io/js/set-interval-async) [![Build Status](https://img.shields.io/travis/ealmansi/set-interval-async.svg?style=flat-square)](https://travis-ci.org/ealmansi/set-interval-async) [![Coverage Status](https://img.shields.io/coveralls/github/ealmansi/set-interval-async.svg?style=flat-square)](https://coveralls.io/github/ealmansi/set-interval-async?branch=master)  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) 
 
-Modern version of [setInterval](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval) for promises and async functions.
+Modern version of [setInterval](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval) for promises and async functions available in Node.js and browsers.
 
 `setIntervalAsync` works both on Node.js and in the browser, providing the same <br>
 familiar interface as `setInterval` for asynchronous functions, while preventing<br>
