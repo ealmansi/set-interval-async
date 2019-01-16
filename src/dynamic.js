@@ -32,7 +32,7 @@ function setIntervalAsync (handler, interval) {
   timer.timeouts[id] = setTimeout(
     function timeoutHandler () {
       let id = timer.id
-      let startTime = null, endTime = null
+      let startTime = null; let endTime = null
       timer.promises[id] = Promise.resolve(
       ).then(
         () => {

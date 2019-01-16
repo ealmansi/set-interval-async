@@ -17,7 +17,7 @@ import SetIntervalAsyncTimer from './timer'
  * for the previous one to finish. In this scenario, multiple concurrent<br>
  * executions can and will ocurr, so this function should only be used<br>
  * when the given handler is reentrancy-safe.
- * 
+ *
  * @param {function} handler - Handler function to be executed in intervals.<br>
  *                             May be asynchronous.
  * @param {number} interval - Interval in milliseconds. Must be at least 10 ms.

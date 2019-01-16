@@ -13,14 +13,14 @@ export default [
     input: path.resolve(__dirname, 'src', 'index.js'),
     output: {
       cjs: {
-        file: pkg.main,
+        file: pkg.main
       },
       es: {
-        file: pkg.module,
+        file: pkg.module
       },
       iife: {
         file: pkg.unpkg,
-        name: pkg.library,
+        name: pkg.library
       }
     }
   },
@@ -29,10 +29,10 @@ export default [
       input: path.resolve(__dirname, 'src', `${curr}.js`),
       output: {
         cjs: {
-          file: path.resolve(__dirname, curr, `index.js`),
+          file: path.resolve(__dirname, curr, `index.js`)
         },
         es: {
-          file: path.resolve(__dirname, curr, `index.mjs`),
+          file: path.resolve(__dirname, curr, `index.mjs`)
         }
       }
     }

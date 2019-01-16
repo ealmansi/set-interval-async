@@ -7,7 +7,7 @@
 /**
  * Returns a string containing the function's body.
  *
- * @param {Function} fn 
+ * @param {Function} fn
  */
 export function getFunctionBody (fn) {
   let fnString = fn.toString()
