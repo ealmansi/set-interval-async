@@ -39,7 +39,9 @@ function setIntervalAsync (handler, interval, ...args) {
           return handler(...args)
         }
       ).catch(
-        () => {}
+        (err) => {
+          console.error(err)
+        }
       ).then(
         () => {
           delete timer.timeouts[id]

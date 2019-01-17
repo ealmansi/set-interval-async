@@ -69,3 +69,6 @@ legacy/
 !examples/dynamic/
 !examples/fixed/
 !examples/legacy/
+!test/resources/dynamic/
+!test/resources/fixed/
+!test/resources/legacy/

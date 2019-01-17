@@ -9,9 +9,11 @@ import {
   clearIntervalAsync
 } from '../dynamic'
 import { assert } from 'chai'
-import { executeRuntimeTest } from './util/runtime-test'
+import { runFixture } from './util/run-fixture'
 import BluebirdPromise from 'bluebird'
+import fs from 'fs'
 import lolex from 'lolex'
+import path from 'path'
 
 describe('Dynamic setIntervalAsync', async () => {
 
@@ -25,9 +27,7 @@ describe('Dynamic setIntervalAsync', async () => {
   })
 
   afterEach(async () => {
-    if (clock !== null) {
-      clock.uninstall()
-    }
+    clock.uninstall()
     clock = null
     Promise = OriginalPromise
   })
@@ -48,119 +48,47 @@ describe('Dynamic setIntervalAsync', async () => {
     await clearIntervalAsync(timer)
   })
 
-  it('should continue running even if an execution ends in error', async () => {
-    let expectedCount = 5
+  it('should continue running even if an error occurs during execution', async () => {
     let actualCount = 0
     let timer = setIntervalAsync(
       async () => {
         actualCount = actualCount + 1
-        throw new Error()
+        throw new Error('Some error.')
       },
       1000
     )
-    for (let i = 0; i < expectedCount; ++i) {
-      clock.runToLast()
-    }
+    clock.runToLast()
+    clock.runToLast()
     await clearIntervalAsync(timer)
-    assert.equal(actualCount, expectedCount)
+    assert.equal(actualCount, 2)
   })
 
-  it([
-    'should behave like legacy setInterval when execution time < interval',
-      '(real interval = given interval)',
-      '[1]'
-    ].join(' '), async () => {
-    await executeRuntimeTest(
-      1000,
-      () => 100,
-      [
-        { time: 990, startCount: 0, endCount: 0 },
-        { time: 1010, startCount: 1, endCount: 0 },
-        { time: 1110, startCount: 1, endCount: 1 },
-        { time: 1990, startCount: 1, endCount: 1 },
-        { time: 2010, startCount: 2, endCount: 1 },
-        { time: 2110, startCount: 2, endCount: 2 },
-        { time: 2990, startCount: 2, endCount: 2 },
-        { time: 3010, startCount: 3, endCount: 2 },
-        { time: 3110, startCount: 3, endCount: 3 }
-      ],
-      setIntervalAsync,
-      clearIntervalAsync,
-      clock
-    )
-  })
+  runFixturesFromResource(
+    path.join('dynamic', 'execution-time-lt-interval.json')
+  )
 
-  it([
-    'should behave like legacy setInterval when execution time < interval',
-      '(real interval = given interval)',
-      '[2]'
-    ].join(' '), async () => {
-    await executeRuntimeTest(
-      700,
-      () => 500,
-      [
-        { time: 706, startCount: 1, endCount: 0 },
-        { time: 1216, startCount: 1, endCount: 1 },
-        { time: 1406, startCount: 2, endCount: 1 },
-        { time: 1907, startCount: 2, endCount: 2 },
-        { time: 2107, startCount: 3, endCount: 2 },
-        { time: 2608, startCount: 3, endCount: 3 },
-        { time: 2808, startCount: 4, endCount: 3 },
-        { time: 3309, startCount: 4, endCount: 4 },
-        { time: 3509, startCount: 5, endCount: 4 },
-        { time: 4010, startCount: 5, endCount: 5 },
-        { time: 4209, startCount: 6, endCount: 5 },
-        { time: 4710, startCount: 6, endCount: 6 }
-      ],
-      setIntervalAsync,
-      clearIntervalAsync,
-      clock
-    )
-  })
+  runFixturesFromResource(
+    path.join('dynamic', 'execution-time-gt-interval.json')
+  )
 
-  it([
-    'should prevent reentrancy when execution time > interval',
-    '(real interval = execution time)',
-    '[1]'
-  ].join(' '), async () => {
-    await executeRuntimeTest(
-      100,
-      () => 1000,
-      [
-        { time: 90, startCount: 0, endCount: 0 },
-        { time: 110, startCount: 1, endCount: 0 },
-        { time: 1090, startCount: 1, endCount: 0 },
-        { time: 1110, startCount: 2, endCount: 1 },
-        { time: 2090, startCount: 2, endCount: 1 },
-        { time: 2120, startCount: 3, endCount: 2 }
-      ],
-      setIntervalAsync,
-      clearIntervalAsync,
-      clock
-    )
-  })
+  function runFixturesFromResource (resourceFilePath) {
+    let {
+      t: title,
+      f: fixtures
+    } = loadResource(resourceFilePath)
+    for (let [index, fixture] of fixtures.entries()) {
+      it(`${title} [${index + 1}]`, async () => {
+        runFixture(fixture, setIntervalAsync, clearIntervalAsync, clock)
+      })
+    }
+  }
 
-  it([
-    'should prevent reentrancy when execution time > interval',
-    '(real interval = execution time)',
-    '[2]'
-  ].join(' '), async () => {
-    await executeRuntimeTest(
-      500,
-      () => 700,
-      [
-        { time: 506, startCount: 1, endCount: 0 },
-        { time: 1220, startCount: 2, endCount: 1 },
-        { time: 1922, startCount: 3, endCount: 2 },
-        { time: 2624, startCount: 4, endCount: 3 },
-        { time: 3327, startCount: 5, endCount: 4 },
-        { time: 4030, startCount: 6, endCount: 5 },
-        { time: 4733, startCount: 7, endCount: 6 }
-      ],
-      setIntervalAsync,
-      clearIntervalAsync,
-      clock
+  function loadResource (resourceFilePath) {
+    return JSON.parse(
+      fs.readFileSync(
+        path.resolve(__dirname, 'resources', resourceFilePath)
+      )
     )
-  })
+  }
 
 })
