@@ -18,4 +18,5 @@ export function getFunctionBody (fn) {
     )
     .replace(/\bcov_[a-z0-9]+\b/g, '')
     .replace(/\[[0-9]+\]/g, '')
+    .replace(/\$[0-9]+/g, '')
 }

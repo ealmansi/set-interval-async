@@ -31,36 +31,44 @@ function setIntervalAsync (handler, interval, ...args) {
   let timer = new SetIntervalAsyncTimer()
   let id = timer.id
   timer.timeouts[id] = setTimeout(
-    function timeoutHandler () {
-      let id = timer.id
-      let startTime = null; let endTime = null
-      timer.promises[id] = Promise.resolve(
-      ).then(
-        () => {
-          startTime = new Date()
-          return handler(...args)
-        }
-      ).catch(
-        (err) => {
-          console.error(err)
-        }
-      ).then(
-        () => {
-          endTime = new Date()
-          delete timer.timeouts[id]
-          delete timer.promises[id]
-          if (!timer.stopped) {
-            let executionTime = endTime - startTime
-            let timeout = interval > executionTime ? interval - executionTime : 0
-            timer.timeouts[id + 1] = setTimeout(timeoutHandler, timeout)
-          }
-        }
-      )
-      timer.id = id + 1
-    },
-    interval
+    timeoutHandler,
+    interval,
+    timer,
+    handler,
+    interval,
+    ...args
   )
   return timer
+}
+
+function timeoutHandler (timer, handler, interval, ...args) {
+  let id = timer.id
+  timer.promises[id] = (async () => {
+    let startTime = new Date()
+    try {
+      await handler(...args)
+    } catch (err) {
+      console.error(err)
+    }
+    let endTime = new Date()
+    if (!timer.stopped) {
+      let executionTime = endTime - startTime
+      let timeout = interval > executionTime
+        ? interval - executionTime
+        : 0
+      timer.timeouts[id + 1] = setTimeout(
+        timeoutHandler,
+        timeout,
+        timer,
+        handler,
+        interval,
+        ...args
+      )
+    }
+    delete timer.timeouts[id]
+    delete timer.promises[id]
+  })()
+  timer.id = id + 1
 }
 
 export { setIntervalAsync, clearIntervalAsync, SetIntervalAsyncError }

@@ -31,31 +31,38 @@ function setIntervalAsync (handler, interval, ...args) {
   let timer = new SetIntervalAsyncTimer()
   let id = timer.id
   timer.timeouts[id] = setTimeout(
-    function timeoutHandler () {
-      let id = timer.id
-      timer.promises[id] = Promise.resolve(
-      ).then(
-        () => {
-          return handler(...args)
-        }
-      ).catch(
-        (err) => {
-          console.error(err)
-        }
-      ).then(
-        () => {
-          delete timer.timeouts[id]
-          delete timer.promises[id]
-          if (!timer.stopped) {
-            timer.timeouts[id + 1] = setTimeout(timeoutHandler, interval)
-          }
-        }
-      )
-      timer.id = id + 1
-    },
-    interval
+    timeoutHandler,
+    interval,
+    timer,
+    handler,
+    interval,
+    ...args
   )
   return timer
+}
+
+function timeoutHandler (timer, handler, interval, ...args) {
+  let id = timer.id
+  timer.promises[id] = (async () => {
+    try {
+      await handler(...args)
+    } catch (err) {
+      console.error(err)
+    }
+    if (!timer.stopped) {
+      timer.timeouts[id + 1] = setTimeout(
+        timeoutHandler,
+        interval,
+        timer,
+        handler,
+        interval,
+        ...args
+      )
+    }
+    delete timer.timeouts[id]
+    delete timer.promises[id]
+  })()
+  timer.id = id + 1
 }
 
 export { setIntervalAsync, clearIntervalAsync, SetIntervalAsyncError }
