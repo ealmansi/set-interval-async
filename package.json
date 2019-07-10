@@ -1,6 +1,6 @@
 {
   "name": "set-interval-async",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "Modern version of setInterval for promises and async functions available in Node.js and browsers.",
   "repository": {
     "type": "git",
