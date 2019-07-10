@@ -64,6 +64,10 @@
     "@babel/polyfill": "7.2.5",
     "@babel/runtime": "7.2.0"
   },
+  "resolutions": {
+    "rollup-plugin-node-builtins/**/semver": "5.6.0",
+    "rollup-plugin-node-builtins/**/bl": "0.9.5"
+  },
   "scripts": {
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
