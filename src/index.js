@@ -11,9 +11,9 @@ import { setIntervalAsync as setIntervalAsyncL } from './legacy'
 import SetIntervalAsyncError from './error'
 import SetIntervalAsyncTimer from './timer'
 
-let dynamic = { setIntervalAsync: setIntervalAsyncD }
-let fixed = { setIntervalAsync: setIntervalAsyncF }
-let legacy = { setIntervalAsync: setIntervalAsyncL }
+const dynamic = { setIntervalAsync: setIntervalAsyncD }
+const fixed = { setIntervalAsync: setIntervalAsyncF }
+const legacy = { setIntervalAsync: setIntervalAsyncL }
 
 export {
   dynamic,

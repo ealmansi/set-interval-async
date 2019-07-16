@@ -30,8 +30,8 @@ import SetIntervalAsyncTimer from './timer'
 function setIntervalAsync (handler, interval, ...args) {
   validateHandler(handler)
   validateInterval(interval)
-  let timer = new SetIntervalAsyncTimer()
-  let id = timer.id
+  const timer = new SetIntervalAsyncTimer()
+  const id = timer.id
   timer.timeouts[id] = setTimeout(
     timeoutHandler,
     interval,
@@ -44,7 +44,7 @@ function setIntervalAsync (handler, interval, ...args) {
 }
 
 function timeoutHandler (timer, handler, interval, ...args) {
-  let id = timer.id
+  const id = timer.id
   timer.promises[id] = (async () => {
     if (!timer.stopped) {
       timer.timeouts[id + 1] = setTimeout(

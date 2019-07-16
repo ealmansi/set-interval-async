@@ -10,7 +10,7 @@
  * @param {Function} fn
  */
 export function getFunctionBody (fn) {
-  let fnString = fn.toString()
+  const fnString = fn.toString()
   return fnString
     .slice(
       fnString.indexOf('{') + 1,

@@ -4,7 +4,7 @@
  * For a copy, see the file LICENSE in the root directory.
  */
 
-let MAX_INTERVAL_MS = Math.pow(2, 31) - 1
+const MAX_INTERVAL_MS = Math.pow(2, 31) - 1
 
 /**
  * Stops an execution cycle started by setIntervalAsync.<br>
@@ -17,18 +17,18 @@ let MAX_INTERVAL_MS = Math.pow(2, 31) - 1
  */
 async function clearIntervalAsync (timer) {
   timer.stopped = true
-  for (let timeout of Object.values(timer.timeouts)) {
+  for (const timeout of Object.values(timer.timeouts)) {
     clearTimeout(timeout)
   }
-  let noop = () => {}
-  let promises = Object
+  const noop = () => {}
+  const promises = Object
     .values(timer.promises)
     .map(
       (promise) => {
         promise.catch(noop)
       }
     )
-  let noopInterval = setInterval(noop, MAX_INTERVAL_MS)
+  const noopInterval = setInterval(noop, MAX_INTERVAL_MS)
   await Promise.all(promises)
   clearInterval(noopInterval)
 }

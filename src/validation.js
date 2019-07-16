@@ -6,7 +6,7 @@
 
 import SetIntervalAsyncError from './error'
 
-let MIN_INTERVAL_MS = 10
+const MIN_INTERVAL_MS = 10
 
 /**
  * @private

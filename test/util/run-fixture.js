@@ -12,21 +12,21 @@ export function runFixture (
   clearIntervalAsync,
   clock
 ) {
-  let {
+  const {
     i: interval,
     x: executionTimes,
     d: duration,
     c: expectedCalls
   } = fixture
   let callCount = 0
-  let actualCalls = []
-  let timer = setIntervalAsync(
+  const actualCalls = []
+  const timer = setIntervalAsync(
     async () => {
-      let startTime = new Date().getTime()
+      const startTime = new Date().getTime()
       callCount = callCount + 1
-      let executionTime = executionTimes[(callCount - 1) % executionTimes.length]
+      const executionTime = executionTimes[(callCount - 1) % executionTimes.length]
       await sleep(executionTime)
-      let endTime = new Date().getTime()
+      const endTime = new Date().getTime()
       actualCalls.push({ s: startTime, e: endTime })
     },
     interval
