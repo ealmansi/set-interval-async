@@ -29,10 +29,10 @@ export default [
       input: path.resolve(__dirname, 'src', `${curr}.js`),
       output: {
         cjs: {
-          file: path.resolve(__dirname, curr, `index.js`)
+          file: path.resolve(__dirname, curr, 'index.js')
         },
         es: {
-          file: path.resolve(__dirname, curr, `index.mjs`)
+          file: path.resolve(__dirname, curr, 'index.mjs')
         }
       }
     }

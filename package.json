@@ -47,6 +47,12 @@
     "bluebird": "3.5.3",
     "chai": "4.2.0",
     "coveralls": "3.0.2",
+    "eslint": "^6.2.2",
+    "eslint-config-standard": "^14.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "jsdoc": "3.5.5",
     "lolex": "3.0.0",
     "mocha": "5.2.0",
@@ -58,8 +64,7 @@
     "rollup-plugin-commonjs": "9.2.0",
     "rollup-plugin-node-builtins": "2.1.2",
     "rollup-plugin-node-globals": "1.4.0",
-    "rollup-plugin-node-resolve": "4.0.0",
-    "standard": "13.0.2"
+    "rollup-plugin-node-resolve": "4.0.0"
   },
   "dependencies": {
     "@babel/runtime": "7.5.0"
@@ -73,7 +78,7 @@
     "build:watch": "rollup -c -w",
     "clean": "rimraf set-interval-async.* dynamic fixed legacy .nyc_output docs",
     "docs": "jsdoc -d docs -R README.md src/",
-    "lint": "standard src/**/*.js test/**/*.js rollup.config.js",
+    "lint": "eslint src/**/*.js test/**/*.js rollup.config.js",
     "pretest": "yarn lint",
     "test": "nyc mocha --require test/babel.js",
     "prepublishOnly": "yarn clean && yarn build && yarn test && yarn docs && git add docs",
