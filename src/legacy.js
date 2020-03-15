@@ -46,16 +46,14 @@ function setIntervalAsync (handler, interval, ...args) {
 function timeoutHandler (timer, handler, interval, ...args) {
   const id = timer.id
   timer.promises[id] = (async () => {
-    if (!timer.stopped) {
-      timer.timeouts[id + 1] = setTimeout(
-        timeoutHandler,
-        interval,
-        timer,
-        handler,
-        interval,
-        ...args
-      )
-    }
+    timer.timeouts[id + 1] = setTimeout(
+      timeoutHandler,
+      interval,
+      timer,
+      handler,
+      interval,
+      ...args
+    )
     try {
       await handler(...args)
     } catch (err) {
