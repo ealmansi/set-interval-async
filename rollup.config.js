@@ -1,12 +1,12 @@
 import babel from 'rollup-plugin-babel'
 import builtins from 'rollup-plugin-node-builtins'
-import commonJS from 'rollup-plugin-commonjs'
+import commonJS from '@rollup/plugin-commonjs'
 import fs from 'fs'
 import globals from 'rollup-plugin-node-globals'
 import minify from 'rollup-plugin-babel-minify'
 import path from 'path'
 import pkg from './package.json'
-import resolve from 'rollup-plugin-node-resolve'
+import resolve from '@rollup/plugin-node-resolve'
 
 export default [
   {
