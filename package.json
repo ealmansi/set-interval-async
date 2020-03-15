@@ -1,6 +1,6 @@
 {
   "name": "set-interval-async",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "description": "Modern version of setInterval for promises and async functions available in Node.js and browsers.",
   "repository": {
     "type": "git",
@@ -44,6 +44,8 @@
     "@babel/polyfill": "7.4.4",
     "@babel/preset-env": "7.5.5",
     "@babel/register": "7.5.5",
+    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-node-resolve": "7.1.1",
     "bluebird": "3.5.3",
     "chai": "4.2.0",
     "coveralls": "3.0.2",
@@ -61,10 +63,8 @@
     "rollup": "1.32.1",
     "rollup-plugin-babel": "4.3.0",
     "rollup-plugin-babel-minify": "9.0.0",
-    "@rollup/plugin-commonjs": "11.0.2",
     "rollup-plugin-node-builtins": "2.1.2",
-    "rollup-plugin-node-globals": "1.4.0",
-    "@rollup/plugin-node-resolve": "7.1.1"
+    "rollup-plugin-node-globals": "1.4.0"
   },
   "dependencies": {
     "@babel/runtime": "7.5.0"
