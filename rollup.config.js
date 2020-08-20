@@ -1,5 +1,5 @@
 import babel from '@rollup/plugin-babel'
-import builtins from 'rollup-plugin-node-builtins'
+import nodePolyfills from 'rollup-plugin-node-polyfills'
 import commonJS from '@rollup/plugin-commonjs'
 import fs from 'fs'
 import globals from 'rollup-plugin-node-globals'
@@ -88,7 +88,7 @@ export default [
           context: 'window',
           plugins: [
             globals(),
-            builtins(),
+            nodePolyfills(),
             resolve({
               browser: true,
               preferBuiltins: true
