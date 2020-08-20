@@ -1,4 +1,4 @@
-import babel from 'rollup-plugin-babel'
+import babel from '@rollup/plugin-babel'
 import builtins from 'rollup-plugin-node-builtins'
 import commonJS from '@rollup/plugin-commonjs'
 import fs from 'fs'
@@ -69,7 +69,7 @@ export default [
                   }
                 ]
               ],
-              runtimeHelpers: true,
+              babelHelpers: 'runtime',
               plugins: ['@babel/plugin-transform-runtime']
             })
           ],
@@ -107,7 +107,7 @@ export default [
                   }
                 ]
               ],
-              runtimeHelpers: true,
+              babelHelpers: 'runtime',
               plugins: ['@babel/plugin-transform-runtime']
             }),
             minify({
