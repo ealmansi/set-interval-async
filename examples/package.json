@@ -1,6 +1,6 @@
 {
   "name": "set-interval-async-examples",
-  "version": "1.0.34",
+  "version": "1.0.0",
   "description": "Examples of setIntervalAsync usage.",
   "main": "index.js",
   "repository": "https://github.com/ealmansi/set-interval-async.git",
