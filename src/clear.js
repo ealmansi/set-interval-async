@@ -4,7 +4,7 @@
  * For a copy, see the file LICENSE in the root directory.
  */
 
-const MAX_INTERVAL_MS = Math.pow(2, 31) - 1
+const NOOP_INTERVAL_MS = 60 * 1000
 
 /**
  * Stops an execution cycle started by setIntervalAsync.<br>
@@ -28,7 +28,7 @@ async function clearIntervalAsync (timer) {
         promise.catch(noop)
       }
     )
-  const noopInterval = setInterval(noop, MAX_INTERVAL_MS)
+  const noopInterval = setInterval(noop, NOOP_INTERVAL_MS)
   await Promise.all(promises)
   clearInterval(noopInterval)
 }
