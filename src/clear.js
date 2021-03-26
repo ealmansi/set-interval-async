@@ -24,9 +24,9 @@ async function clearIntervalAsync (timer) {
   const promises = Object
     .values(timer.promises)
     .map(
-      (promise) => {
+      (promise) => (
         promise.catch(noop)
-      }
+      )
     )
   const noopInterval = setInterval(noop, NOOP_INTERVAL_MS)
   await Promise.all(promises)
