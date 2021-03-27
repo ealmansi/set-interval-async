@@ -101,4 +101,4 @@ async function runHandler (timer, iterationId, handler, interval, ...args) {
   }
 }
 
-export { setIntervalAsync, clearIntervalAsync, SetIntervalAsyncError }
+export { setIntervalAsync, clearIntervalAsync, SetIntervalAsyncTimer, SetIntervalAsyncError }

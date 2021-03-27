@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2019 Emilio Almansi. All rights reserved.
+ * Copyright (c) 2021 Emilio Almansi. All rights reserved.
  * This work is licensed under the terms of the MIT license.
  * For a copy, see the file LICENSE in the root directory.
  */
@@ -8,7 +8,8 @@ import { assert } from 'chai'
 import {
   dynamic,
   fixed,
-  legacy
+  legacy,
+  clearIntervalAsync,
 } from '..'
 
 let { setIntervalAsync: setIntervalAsyncD } = dynamic
@@ -62,6 +63,21 @@ describe('Validation', async () => {
           )
         }
       )
+    }
+  })
+
+  it('should reject invalid arguments to clearIntervalAsync', async () => {
+    let invalidTimers = [undefined, null, {}, [], 'x', 42]
+    for (let invalidTimer of invalidTimers) {
+      let threw
+      try {
+        await clearIntervalAsync(invalidTimer)
+        threw = false
+      } catch (_) {
+        threw = true
+        // Do nothing.
+      }
+      assert.isTrue(threw)
     }
   })
 

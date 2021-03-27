@@ -78,18 +78,16 @@ async function runHandler (timer, iterationId, handler, interval, ...args) {
   // The next line ensures that timer.promises[iterationId] is set
   // before running the handler.
   await noop()
-  if (!timer.stopped) {
-    const nextIterationId = getNextIterationId(iterationId)
-    timer.timeouts[nextIterationId] = setTimeout(
-      timeoutHandler,
-      interval,
-      timer,
-      nextIterationId,
-      handler,
-      interval,
-      ...args
-    )
-  }
+  const nextIterationId = getNextIterationId(iterationId)
+  timer.timeouts[nextIterationId] = setTimeout(
+    timeoutHandler,
+    interval,
+    timer,
+    nextIterationId,
+    handler,
+    interval,
+    ...args
+  )
   try {
     await handler(...args)
   } finally {
@@ -97,4 +95,4 @@ async function runHandler (timer, iterationId, handler, interval, ...args) {
   }
 }
 
-export { setIntervalAsync, clearIntervalAsync, SetIntervalAsyncError }
+export { setIntervalAsync, clearIntervalAsync, SetIntervalAsyncTimer, SetIntervalAsyncError }
