@@ -11,7 +11,7 @@
  */
 export function getNextIterationId (iterationId) {
   if (iterationId === Number.MAX_SAFE_INTEGER) {
-    return 0;
+    return 0
   }
   return iterationId + 1
 }

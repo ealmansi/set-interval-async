@@ -30,7 +30,7 @@ function setIntervalAsync (handler, interval, ...args) {
   validateHandler(handler)
   validateInterval(interval)
   const timer = new SetIntervalAsyncTimer()
-  const iterationId = 0;
+  const iterationId = 0
   timer.timeouts[iterationId] = setTimeout(
     timeoutHandler,
     interval,
@@ -78,7 +78,7 @@ async function runHandler (timer, iterationId, handler, interval, ...args) {
   await noop()
   const startTime = new Date()
   try {
-    await handler(...args);
+    await handler(...args)
   } finally {
     if (!timer.stopped) {
       const endTime = new Date()
@@ -86,7 +86,7 @@ async function runHandler (timer, iterationId, handler, interval, ...args) {
       const timeout = interval > executionTime
         ? interval - executionTime
         : 0
-      const nextIterationId = getNextIterationId(iterationId);
+      const nextIterationId = getNextIterationId(iterationId)
       timer.timeouts[nextIterationId] = setTimeout(
         timeoutHandler,
         timeout,

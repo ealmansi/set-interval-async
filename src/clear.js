@@ -4,7 +4,7 @@
  * For a copy, see the file LICENSE in the root directory.
  */
 
-const NOOP_INTERVAL_MS = 60 * 1000
+import { validateTimer } from './validation'
 
 /**
  * Stops an execution cycle started by setIntervalAsync.<br>
@@ -30,15 +30,4 @@ export async function clearIntervalAsync (timer) {
     }
     delete timer.promises[iterationId]
   }
-  const noop = () => {}
-  const promises = Object
-    .values(timer.promises)
-    .map(
-      (promise) => (
-        promise.catch(noop)
-      )
-    )
-  const noopInterval = setInterval(noop, NOOP_INTERVAL_MS)
-  await Promise.all(promises)
-  clearInterval(noopInterval)
 }

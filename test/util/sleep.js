@@ -10,7 +10,7 @@
  *
  * @param {number} interval - Interval in milliseconds
  */
- export async function sleep (interval) {
+export async function sleep (interval) {
   await new Promise((resolve) => {
     setTimeout(resolve, interval)
   })
