@@ -1,13 +1,14 @@
 /**
- * Copyright (c) 2019 Emilio Almansi. All rights reserved.
+ * Copyright (c) 2019-2021 Emilio Almansi. All rights reserved.
  * This work is licensed under the terms of the MIT license.
  * For a copy, see the file LICENSE in the root directory.
  */
 
 import { clearIntervalAsync } from './clear'
-import { validateHandler, validateInterval } from './validation'
 import SetIntervalAsyncError from './error'
 import SetIntervalAsyncTimer from './timer'
+import { getNextIterationId, noop } from './util'
+import { validateHandler, validateInterval } from './validation'
 
 /**
  * Attempts to execute the given handler at regular intervals, while preventing<br>
@@ -29,11 +30,12 @@ function setIntervalAsync (handler, interval, ...args) {
   validateHandler(handler)
   validateInterval(interval)
   const timer = new SetIntervalAsyncTimer()
-  const id = timer.id
-  timer.timeouts[id] = setTimeout(
+  const iterationId = 0;
+  timer.timeouts[iterationId] = setTimeout(
     timeoutHandler,
     interval,
     timer,
+    iterationId,
     handler,
     interval,
     ...args
@@ -41,34 +43,62 @@ function setIntervalAsync (handler, interval, ...args) {
   return timer
 }
 
-function timeoutHandler (timer, handler, interval, ...args) {
-  const id = timer.id
-  timer.promises[id] = (async () => {
-    const startTime = new Date()
-    try {
-      await handler(...args)
-    } catch (err) {
-      console.error(err)
-    }
-    const endTime = new Date()
+/**
+ * @private
+ *
+ * @param {SetIntervalAsyncTimer} timer
+ * @param {number} iterationId
+ * @param {function} handler
+ * @param {number} interval
+ * @param {...*} args
+ */
+function timeoutHandler (timer, iterationId, handler, interval, ...args) {
+  delete timer.timeouts[iterationId]
+  timer.promises[iterationId] = runHandler(
+    timer,
+    iterationId,
+    handler,
+    interval,
+    ...args
+  )
+}
+
+/**
+ * @private
+ *
+ * @param {SetIntervalAsyncTimer} timer
+ * @param {number} iterationId
+ * @param {function} handler
+ * @param {number} interval
+ * @param {...*} args
+ */
+async function runHandler (timer, iterationId, handler, interval, ...args) {
+  // The next line ensures that timer.promises[iterationId] is set
+  // before running the handler.
+  await noop()
+  const startTime = new Date()
+  try {
+    await handler(...args);
+  } finally {
     if (!timer.stopped) {
+      const endTime = new Date()
       const executionTime = endTime - startTime
       const timeout = interval > executionTime
         ? interval - executionTime
         : 0
-      timer.timeouts[id + 1] = setTimeout(
+      const nextIterationId = getNextIterationId(iterationId);
+      timer.timeouts[nextIterationId] = setTimeout(
         timeoutHandler,
         timeout,
         timer,
+        nextIterationId,
         handler,
         interval,
         ...args
       )
     }
-    delete timer.timeouts[id]
-    delete timer.promises[id]
-  })()
-  timer.id = id + 1
+    delete timer.promises[iterationId]
+  }
 }
 
 export { setIntervalAsync, clearIntervalAsync, SetIntervalAsyncError }

@@ -5,6 +5,7 @@
  */
 
 import SetIntervalAsyncError from './error'
+import SetIntervalAsyncTimer from './timer'
 
 const MIN_INTERVAL_MS = 10
 
@@ -35,6 +36,21 @@ export function validateInterval (interval) {
   )) {
     throw new SetIntervalAsyncError(
       `Invalid argument: "interval". Expected a number greater than or equal to ${MIN_INTERVAL_MS}.`
+    )
+  }
+}
+
+/**
+ * @private
+ *
+ * @param {SetIntervalAsyncTimer} timer
+ */
+export function validateTimer (timer) {
+  if (!(
+    timer instanceof SetIntervalAsyncTimer
+  )) {
+    throw new SetIntervalAsyncError(
+      `Invalid argument: "timer". Expected an intsance of SetIntervalAsyncTimer.`
     )
   }
 }
