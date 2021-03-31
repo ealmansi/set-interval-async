@@ -16,13 +16,17 @@ multiple executions from overlapping in time.
 You can install `setIntervalAsync` using npm:
 
 ```bash
-npm install -E set-interval-async
+npm install set-interval-async
+# If using Typescript, also run:
+npm install -D @types/set-interval-async
 ```
 
 Or using Yarn:
 
 ```bash
-yarn add -E set-interval-async
+yarn add set-interval-async
+# If using Typescript, also run:
+yarn add -D @types/set-interval-async
 ```
 
 Now, you can require `setIntervalAsync` in CommonJS:
@@ -170,6 +174,36 @@ setIntervalAsync(processQueue, 1000, queue)
 since `setIntervalAsync` will guarantee that the function is never executed more than once at any given moment. You can choose whether you wish to use the `Dynamic` or `Fixed` flavors, which will either launch every execution as soon as possible or set a fixed delay between the end of one execution and the start of the next one. See [Dynamic and Fixed `setIntervalAsync`](#dynamic-and-fixed-setintervalasync) for more details.
 
 To see a full set of examples and instructions on how to run them, check out our [examples](https://github.com/ealmansi/set-interval-async/tree/master/examples) directory.
+
+## A word of caution
+
+While calling `clearIntervalAsync` to stop an interval is perfectly safe in any circumstance, please note that awaiting its result *within the async handler itself* will lead to undesirable results. For example, the code below:
+
+```javascript
+const timer = setIntervalAsync(async () => {
+  // ...
+  if (shouldStop) {
+    await clearIntervalAsync(timer);
+    console.log('Stopped!');
+  }
+}, interval);
+```
+
+leads to a cyclical promise chain that will never be resolved (the `console.log` statement is unreachable). This is the case because:
+
+- `await clearIntervalAsync(timer)` will not resolve until the last execution has finished, AND
+- the last execution will not finish until `await clearIntervalAsync(timer)` has been resolved.
+
+To prevent this cycle, always allow the async handler to complete without awaiting for the interval to be cleared. For example, by removing the `await` keyword entirely or by using an immediately-invoked function expression:
+
+```javascript
+  if (shouldStop) {
+    (async () => {
+      await clearIntervalAsync(timer);
+      console.log('Stopped!');
+    })();
+  }
+```
 
 # Motivation
 
