@@ -52,7 +52,7 @@ export function validateTimer (timer) {
     'promises' in timer
   )) {
     throw new SetIntervalAsyncError(
-      'Invalid argument: "timer". Expected an intsance of SetIntervalAsyncTimer.'
+      'Invalid argument: "timer". Expected an instance of SetIntervalAsyncTimer.'
     )
   }
 }
