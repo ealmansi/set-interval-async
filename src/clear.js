@@ -4,8 +4,6 @@
  * For a copy, see the file LICENSE in the root directory.
  */
 
-import { validateTimer } from './validation'
-
 /**
  * Stops an execution cycle started by setIntervalAsync.<br>
  * Any ongoing function executions will run until completion,
@@ -16,7 +14,6 @@ import { validateTimer } from './validation'
  *          A promise which resolves when all pending executions have finished.
  */
 export async function clearIntervalAsync (timer) {
-  validateTimer(timer)
   timer.stopped = true
   for (const iterationId in timer.timeouts) {
     clearTimeout(timer.timeouts[iterationId])
