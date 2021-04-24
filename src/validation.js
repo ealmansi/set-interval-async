@@ -1,11 +1,10 @@
 /**
- * Copyright (c) 2019 Emilio Almansi. All rights reserved.
+ * Copyright (c) 2019-2021 Emilio Almansi. All rights reserved.
  * This work is licensed under the terms of the MIT license.
  * For a copy, see the file LICENSE in the root directory.
  */
 
 import SetIntervalAsyncError from './error'
-import SetIntervalAsyncTimer from './timer'
 
 const MIN_INTERVAL_MS = 10
 
@@ -47,7 +46,10 @@ export function validateInterval (interval) {
  */
 export function validateTimer (timer) {
   if (!(
-    timer instanceof SetIntervalAsyncTimer
+    timer &&
+    'stopped' in timer &&
+    'timeouts' in timer &&
+    'promises' in timer
   )) {
     throw new SetIntervalAsyncError(
       'Invalid argument: "timer". Expected an intsance of SetIntervalAsyncTimer.'
