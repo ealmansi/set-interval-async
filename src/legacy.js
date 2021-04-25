@@ -4,6 +4,7 @@
  * For a copy, see the file LICENSE in the root directory.
  */
 
+import { flat } from './polyfills'
 import { clearIntervalAsync } from './clear'
 import SetIntervalAsyncError from './error'
 import SetIntervalAsyncTimer from './timer'
@@ -21,7 +22,7 @@ import { validateHandler, validateInterval } from './validation'
  *
  * @param {function} handler - Handler function to be executed in intervals.<br>
  *                             May be asynchronous.
- * @param {number} interval - Interval in milliseconds. Must be at least 10 ms.
+ * @param {number|Array} interval - Interval in milliseconds. Must be at least 10 ms. First array index is initial delay.
  * @param {...*} args - Any number of arguments to pass on to the handler.
  * @returns {SetIntervalAsyncTimer}
  *          A timer object which can be used to stop execution with {@link clearIntervalAsync}.
@@ -33,13 +34,14 @@ function setIntervalAsync (handler, interval, ...args) {
   validateInterval(interval)
   const timer = new SetIntervalAsyncTimer()
   const iterationId = 0
+  const intervals = flat([interval])
   timer.timeouts[iterationId] = setTimeout(
     timeoutHandler,
-    interval,
+    intervals[0],
     timer,
     iterationId,
     handler,
-    interval,
+    intervals[1] || intervals[0],
     ...args
   )
   return timer

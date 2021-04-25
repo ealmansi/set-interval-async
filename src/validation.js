@@ -27,11 +27,12 @@ export function validateHandler (handler) {
 /**
  * @private
  *
- * @param {number} interval - Interval in milliseconds. Must be at least 10 ms.
+ * @param {number|Array} interval - Interval in milliseconds. Must be at least 10 ms. First array index is initial delay.
  */
 export function validateInterval (interval) {
   if (!(
-    typeof interval === 'number' && MIN_INTERVAL_MS <= interval
+    (typeof interval === 'number' && MIN_INTERVAL_MS <= interval) ||
+    (Array.isArray(interval) && MIN_INTERVAL_MS <= interval[1])
   )) {
     throw new SetIntervalAsyncError(
       `Invalid argument: "interval". Expected a number greater than or equal to ${MIN_INTERVAL_MS}.`
