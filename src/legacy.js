@@ -4,6 +4,7 @@
  * For a copy, see the file LICENSE in the root directory.
  */
 
+import { flat } from './polyfills'
 import { clearIntervalAsync } from './clear'
 import SetIntervalAsyncError from './error'
 import SetIntervalAsyncTimer from './timer'
@@ -33,7 +34,7 @@ function setIntervalAsync (handler, interval, ...args) {
   validateInterval(interval)
   const timer = new SetIntervalAsyncTimer()
   const iterationId = 0
-  const intervals = [interval].flat()
+  const intervals = flat([interval])
   timer.timeouts[iterationId] = setTimeout(
     timeoutHandler,
     intervals[0],
