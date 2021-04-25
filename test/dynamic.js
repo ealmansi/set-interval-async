@@ -48,6 +48,22 @@ describe('Dynamic setIntervalAsync', async () => {
     await clearIntervalAsync(timer)
   })
 
+  it('should start and stop successfully with a synchronous handler and initial delay', async () => {
+    let timer = setIntervalAsync(
+      () => {},
+      [0, 1000]
+    )
+    await clearIntervalAsync(timer)
+  })
+
+  it('should start and stop successfully with an asynchronous handler and initial delay', async () => {
+    let timer = setIntervalAsync(
+      async () => {},
+      [0, 1000]
+    )
+    await clearIntervalAsync(timer)
+  })
+
   it('should continue running even if an error occurs during execution', async () => {
     let actualCount = 0
     let timer = setIntervalAsync(
