@@ -8,31 +8,30 @@ import { assert } from 'chai'
 import {
   clearIntervalAsync as clearIntervalAsyncD,
   setIntervalAsync as setIntervalAsyncD,
-  SetIntervalAsyncTimer as SetIntervalAsyncTimerD,
+  SetIntervalAsyncTimer as SetIntervalAsyncTimerD
 } from '../dynamic'
 import {
   clearIntervalAsync as clearIntervalAsyncF,
   setIntervalAsync as setIntervalAsyncF,
-  SetIntervalAsyncTimer as SetIntervalAsyncTimerF,
+  SetIntervalAsyncTimer as SetIntervalAsyncTimerF
 } from '../fixed'
 import {
   clearIntervalAsync as clearIntervalAsyncL,
   setIntervalAsync as setIntervalAsyncL,
-  SetIntervalAsyncTimer as SetIntervalAsyncTimerL,
+  SetIntervalAsyncTimer as SetIntervalAsyncTimerL
 } from '../legacy'
 import { sleep } from './util/sleep'
 
 describe('clearIntervalAsync', () => {
-
   for (const [type, [setIntervalAsync, clearIntervalAsync, SetIntervalAsyncTimer]] of [
     ['dynamic', [setIntervalAsyncD, clearIntervalAsyncD, SetIntervalAsyncTimerD]],
     ['fixed', [setIntervalAsyncF, clearIntervalAsyncF, SetIntervalAsyncTimerF]],
-    ['legacy', [setIntervalAsyncL, clearIntervalAsyncL, SetIntervalAsyncTimerL]],
+    ['legacy', [setIntervalAsyncL, clearIntervalAsyncL, SetIntervalAsyncTimerL]]
   ]) {
     it(`should clear an uninitialized timer without errors [${type}]`, async () => {
       await clearIntervalAsync(new SetIntervalAsyncTimer())
     })
-  
+
     it(`should wait until the interval is fully stopped [${type}]`, async () => {
       let running = false
       const timer = setIntervalAsync(async () => {
@@ -51,9 +50,21 @@ describe('clearIntervalAsync', () => {
       }, 10)
       await sleep(100)
       await clearIntervalAsync(timer)
-      assert.deepEqual(timer.timeouts, {});
-      assert.deepEqual(timer.promises, {});
+      assert.deepEqual(timer.timeouts, {})
+      assert.deepEqual(timer.promises, {})
+    })
+
+    it(`should clear timeouts from within the timer itself [${type}]`, async () => {
+      let running = false
+      const timer = setIntervalAsync(async () => {
+        running = true
+        await sleep(100)
+        running = false
+      }, 10)
+      await sleep(150)
+      assert.isTrue(running)
+      await timer.clear()
+      assert.isFalse(running)
     })
   }
-
 })
