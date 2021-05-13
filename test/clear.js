@@ -36,12 +36,13 @@ describe('clearIntervalAsync', () => {
       let running = false
       const timer = setIntervalAsync(async () => {
         running = true
-        await sleep(100)
+        await sleep(300)
         running = false
       }, 10)
-      await sleep(150)
+      await sleep(100)
       assert.isTrue(running)
       await clearIntervalAsync(timer)
+      await sleep(500)
       assert.isFalse(running)
     })
 
@@ -58,12 +59,13 @@ describe('clearIntervalAsync', () => {
       let running = false
       const timer = setIntervalAsync(async () => {
         running = true
-        await sleep(100)
+        await sleep(300)
         running = false
       }, 10)
-      await sleep(150)
+      await sleep(100)
       assert.isTrue(running)
       await timer.clear()
+      await sleep(500)
       assert.isFalse(running)
     })
   }
