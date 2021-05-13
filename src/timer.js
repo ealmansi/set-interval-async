@@ -16,7 +16,6 @@ class SetIntervalAsyncTimer {
   }
 
   clear () {
-  //   console.log('clearring!!!!', this)
     return clearIntervalAsync(this)
   }
 }
