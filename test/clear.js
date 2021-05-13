@@ -54,7 +54,7 @@ describe('clearIntervalAsync', () => {
       assert.deepEqual(timer.promises, {})
     })
 
-    it(`should clear timeouts from within the timer itself [${type}]`, async () => {
+    it(`should call the clear() method on the timer [${type}]`, async () => {
       let running = false
       const timer = setIntervalAsync(async () => {
         running = true
