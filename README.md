@@ -6,9 +6,6 @@ Modern version of [setInterval](https://developer.mozilla.org/en-US/docs/Web/API
 familiar interface as `setInterval` for asynchronous functions, while preventing<br>
 multiple executions from overlapping in time.
 
-
-[![NPM](https://nodei.co/npm/set-interval-async.png)](https://nodei.co/npm/set-interval-async/) [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
-
 # Getting Started
 
 ## Node.js
