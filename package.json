@@ -1,6 +1,6 @@
 {
   "name": "set-interval-async",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "Modern version of setInterval for promises and async functions available in Node.js and browsers.",
   "repository": {
     "type": "git",
@@ -25,59 +25,70 @@
     "concurrency",
     "reentrancy"
   ],
-  "main": "dist/set-interval-async.cjs.js",
-  "module": "dist/set-interval-async.esm.mjs",
-  "unpkg": "dist/set-interval-async.iife.js",
+  "main": "./dist/dynamic/set-interval-async.cjs",
+  "exports": {
+    ".": {
+      "require": "./dist/dynamic/set-interval-async.cjs",
+      "import": "./dist/dynamic/set-interval-async.mjs"
+    },
+    "./dynamic": {
+      "require": "./dist/dynamic/set-interval-async.cjs",
+      "import": "./dist/dynamic/set-interval-async.mjs"
+    },
+    "./fixed": {
+      "require": "./dist/fixed/set-interval-async.cjs",
+      "import": "./dist/fixed/set-interval-async.mjs"
+    }
+  },
+  "types": "./dist/dynamic/set-interval-async.d.cts",
+  "unpkg": "./dist/browser/set-interval-async.iife.js",
+  "jsdelivr": "./dist/browser/set-interval-async.iife.js",
   "library": "SetIntervalAsync",
   "files": [
-    "dynamic/**",
-    "fixed/**",
-    "legacy/**",
-    "dist/**"
+    "./dist/browser/set-interval-async.iife.js",
+    "./dist/dynamic/set-interval-async.cjs",
+    "./dist/dynamic/set-interval-async.d.cts",
+    "./dist/dynamic/set-interval-async.mjs",
+    "./dist/fixed/set-interval-async.cjs",
+    "./dist/fixed/set-interval-async.mjs"
   ],
   "author": "Emilio Almansi",
   "license": "MIT",
-  "devDependencies": {
-    "@babel/cli": "7.10.5",
-    "@babel/core": "7.11.1",
-    "@babel/plugin-transform-runtime": "7.11.0",
-    "@babel/polyfill": "7.4.4",
-    "@babel/preset-env": "7.11.0",
-    "@babel/register": "7.10.5",
-    "@rollup/plugin-babel": "5.2.0",
-    "@rollup/plugin-commonjs": "11.0.2",
-    "@rollup/plugin-node-resolve": "7.1.1",
-    "bluebird": "3.5.3",
-    "chai": "4.2.0",
-    "coveralls": "3.1.0",
-    "eslint": "7.7.0",
-    "eslint-config-standard": "14.1.1",
-    "eslint-plugin-import": "2.22.0",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "4.2.1",
-    "eslint-plugin-standard": "4.0.1",
-    "jsdoc": "3.6.5",
-    "lolex": "3.0.0",
-    "mocha": "8.1.1",
-    "nyc": "15.1.0",
-    "rimraf": "2.6.3",
-    "rollup": "1.32.1",
-    "rollup-plugin-babel-minify": "9.0.0",
-    "rollup-plugin-node-globals": "1.4.0",
-    "rollup-plugin-node-polyfills": "0.2.1"
-  },
-  "dependencies": {
-    "@babel/runtime": "7.5.0"
-  },
   "scripts": {
-    "build": "rollup -c",
-    "build:watch": "rollup -c -w",
-    "clean": "rimraf set-interval-async.* dynamic fixed legacy .nyc_output docs",
-    "docs": "jsdoc -d docs -R README.md src/",
-    "lint": "eslint src/**/*.js test/**/*.js rollup.config.js",
-    "pretest": "yarn lint",
-    "test": "nyc mocha --require test/babel.js",
-    "prepublishOnly": "yarn clean && yarn build && yarn test && yarn docs && git add docs",
-    "postpublish": "git push && git push --tags"
+    "clean": "rimraf dist",
+    "build": "yarn build:tsc && yarn build:webpack",
+    "build:tsc": "tsc",
+    "build:webpack": "webpack",
+    "lint": "eslint src test",
+    "format": "prettier --write src test",
+    "test": "nyc mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/plugin-transform-modules-commonjs": "^7.18.6",
+    "@babel/plugin-transform-runtime": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@sinonjs/fake-timers": "^9.1.2",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^18.6.4",
+    "@types/sinon": "^10.0.13",
+    "@types/sinonjs__fake-timers": "^8.1.2",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
+    "babel-loader": "^8.2.5",
+    "coveralls": "^3.1.1",
+    "eslint": "^8.21.0",
+    "mocha": "^10.0.0",
+    "nyc": "^15.1.0",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "sinon": "^14.0.0",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }

@@ -60,9 +60,6 @@ typings/
 # next.js build output
 .next
 
-# Build outputs
-dist
-
-.DS_Store
-
-.vscode
+# Misc
+assets
+test
