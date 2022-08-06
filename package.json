@@ -62,7 +62,7 @@
     "lint": "eslint src test",
     "format": "prettier --write src test",
     "test": "nyc mocha",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=lcov"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",

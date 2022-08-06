@@ -1,8 +1,0 @@
-language: node_js
-node_js:
-  - "14"
-  - "16"
-  - "18"
-  - "20"
-before_script: yarn build
-after_script: yarn coverage
