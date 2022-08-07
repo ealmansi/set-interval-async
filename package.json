@@ -49,6 +49,9 @@
   ],
   "author": "Emilio Almansi",
   "license": "MIT",
+  "engines": {
+    "node": ">= 14.0.0"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "build": "yarn build:tsc && yarn build:webpack",
