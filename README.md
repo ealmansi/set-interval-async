@@ -134,38 +134,6 @@ since `setIntervalAsync` will guarantee that the function is never executed more
 
 You can choose whether you wish to use the `Dynamic` or `Fixed` strategies, which will either launch every execution as soon as possible or set a fixed delay between the end of one execution and the start of the next one. See [Dynamic and Fixed `setIntervalAsync`](#dynamic-and-fixed-setintervalasync) for more details.
 
-## Avoiding Deadlock When Clearing an Interval
-
-While calling `clearIntervalAsync` to stop an interval is perfectly safe in any circumstance, please note that awaiting its result *within the async handler itself* will lead to undesirable results.
-
-For example, the code below leads to a cyclical promise chain that will never be resolved (the `console.log` statement is unreachable).
-
-```javascript
-const timer = setIntervalAsync(async () => {
-  // ...
-  if (shouldStop) {
-    await clearIntervalAsync(timer);
-    console.log('Stopped!');
-  }
-}, interval);
-```
-
-This is the case because:
-
-- `await clearIntervalAsync(timer)` will not resolve until the last execution has finished, *and*
-- the last execution will not finish until `await clearIntervalAsync(timer)` has been resolved.
-
-To prevent this cycle, always allow the async handler to complete without awaiting for the interval to be cleared. For example, by removing the `await` keyword entirely or by using an immediately-invoked function expression:
-
-```javascript
-  if (shouldStop) {
-    (async () => {
-      await clearIntervalAsync(timer);
-      console.log('Stopped!');
-    })();
-  }
-```
-
 # Dynamic and Fixed `setIntervalAsync`
 
 `setIntervalAsync` provides two strategies which can be used to prevent a recurring function from executing more than once at any given moment:
@@ -174,7 +142,7 @@ To prevent this cycle, always allow the async handler to complete without awaiti
 
 - **Fixed**: The given function is called repeatedly, guaranteeing a fixed delay of `interval` milliseconds between the end of one execution and the start of the following one.<br><br>![Fixed setIntervalAsync diagram.](https://github.com/ealmansi/set-interval-async/raw/master/assets/fixed.png)
 
-You can choose whichever strategy works best for your application. When in doubt, the `Dynamic` strategy will likely suffice for most use cases, keeping the interval as close as possible to the desired one.
+You can choose whichever strategy works best for your application. When in doubt, the `Dynamic` strategy will likely suffice for most use cases, keeping the interval as close as possible to the desired one. The default strategy is `Dynamic`.
 
 ## In Node.js
 
@@ -210,6 +178,86 @@ var clearIntervalAsync = SetIntervalAsync.clearIntervalAsync;
 // Fixed strategy.
 var setIntervalAsync = SetIntervalAsync.fixed.setIntervalAsync;
 var clearIntervalAsync = SetIntervalAsync.clearIntervalAsync;
+```
+
+# API
+
+## Function `setIntervalAsync`
+
+Executes the given `handler` every `intervalMs` milliseconds, while preventing multiple concurrent executions. The handler will never be executed concurrently more than once in any given moment.
+
+See [Dynamic and Fixed `setIntervalAsync`](#dynamic-and-fixed-setintervalasync) for more details on which strategies can be used to determine the effective interval between executions when the handler takes longer than the target interval to complete. The default strategy is `Dynamic`.
+
+```typescript
+function setIntervalAsync<HandlerArgs extends unknown[]>(
+  handler: SetIntervalAsyncHandler<HandlerArgs>,
+  intervalMs: number,
+  ...handlerArgs: HandlerArgs
+): SetIntervalAsyncTimer<HandlerArgs>;
+```
+
+Note: when `intervalMs` is less than 1, it will be set to 1. When `intervalMs` is greater than 2147483647, it will be set to 2147483647. Non-integer values are truncated to an integer.
+
+## Function `clearIntervalAsync`
+
+Stops an execution cycle started by `setIntervalAsync`. Any ongoing function executions will run until completion, but all future ones will be cancelled.
+
+```typescript
+async function clearIntervalAsync<HandlerArgs extends unknown[]>(
+  timer: SetIntervalAsyncTimer<HandlerArgs>
+): Promise<void>;
+```
+
+The promise returned will resolve once the timer has been stopped and the ongoing execution (if available) has been completed. If the last execution ends in a promise rejection, the promise returned by `clearIntervalAsync` will reject with the same value.
+
+## Type `SetIntervalAsyncHandler`
+
+Synchronous or asynchronous function that can be passed in as a handler to `setIntervalAsync`.
+
+```typescript
+type SetIntervalAsyncHandler<HandlerArgs extends unknown[]> = (
+  ...handlerArgs: HandlerArgs
+) => void | Promise<void>;
+```
+
+## Type `SetIntervalAsyncTimer`
+
+Return type of `setIntervalAsync`. Does not have any observable properties, but must be passed in as an argument to `clearIntervalAsync` to stop execution.
+
+```typescript
+type SetIntervalAsyncTimer<HandlerArgs extends unknown[]>;
+```
+
+# Avoiding Deadlock When Clearing an Interval
+
+While calling `clearIntervalAsync` to stop an interval is perfectly safe in any circumstance, please note that awaiting its result *within the async handler itself* will lead to undesirable results.
+
+For example, the code below leads to a cyclical promise chain that will never be resolved (the `console.log` statement is unreachable).
+
+```javascript
+const timer = setIntervalAsync(async () => {
+  // ...
+  if (shouldStop) {
+    await clearIntervalAsync(timer);
+    console.log('Stopped!');
+  }
+}, interval);
+```
+
+This is the case because:
+
+- `await clearIntervalAsync(timer)` will not resolve until the last execution has finished, *and*
+- the last execution will not finish until `await clearIntervalAsync(timer)` has been resolved.
+
+To prevent this cycle, always allow the async handler to complete without awaiting for the interval to be cleared. For example, by removing the `await` keyword entirely or by using an immediately-invoked function expression:
+
+```javascript
+  if (shouldStop) {
+    (async () => {
+      await clearIntervalAsync(timer);
+      console.log('Stopped!');
+    })();
+  }
 ```
 
 # Motivation
