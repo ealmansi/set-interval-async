@@ -4,7 +4,6 @@
     "lib": ["ESNext"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "./src",
     "declaration": true,
     "outDir": "./dist",
     "isolatedModules": true,
@@ -29,5 +28,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "skipLibCheck": true 
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "test/**/*"],
+  "exclude": ["node_modules"]
 }

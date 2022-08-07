@@ -18,6 +18,12 @@ export function setIntervalAsync<HandlerArgs extends unknown[]>(
   intervalMs: number,
   ...handlerArgs: HandlerArgs
 ): SetIntervalAsyncTimer<HandlerArgs> {
+  if (!(typeof handler === "function")) {
+    throw new TypeError("First argument is not a function");
+  }
+  if (!(typeof intervalMs === "number")) {
+    throw new TypeError("Second argument is not a number");
+  }
   return SetIntervalAsyncTimer.startTimer<HandlerArgs>(
     "fixed",
     handler,

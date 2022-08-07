@@ -4,17 +4,18 @@ import assert from "assert/strict";
 import {
   setIntervalAsync as setIntervalAsyncDynamic,
   clearIntervalAsync as clearIntervalAsyncDynamic,
+  SetIntervalAsyncTimer,
 } from "set-interval-async/dynamic";
 import {
   setIntervalAsync as setIntervalAsyncFixed,
   clearIntervalAsync as clearIntervalAsyncFixed,
 } from "set-interval-async/fixed";
 
-for (const [flavour, setIntervalAsync, clearIntervalAsync] of [
+for (const [strategy, setIntervalAsync, clearIntervalAsync] of [
   ["Dynamic", setIntervalAsyncDynamic, clearIntervalAsyncDynamic],
   ["Fixed", setIntervalAsyncFixed, clearIntervalAsyncFixed],
 ] as const) {
-  describe(`[${flavour}] clearIntervalAsync`, () => {
+  describe(`[${strategy}] clearIntervalAsync`, () => {
     let clock: InstalledClock;
 
     beforeEach(() => {
@@ -23,6 +24,18 @@ for (const [flavour, setIntervalAsync, clearIntervalAsync] of [
 
     afterEach(() => {
       clock.uninstall();
+    });
+
+    it("should fail if timer is not an instance of SetIntervalAsyncTimer", async () => {
+      const invalidTimers = [null, undefined, 0, "str", {}, []];
+      for (const invalidTimer of invalidTimers) {
+        try {
+          await clearIntervalAsync(invalidTimer as SetIntervalAsyncTimer<[]>);
+          assert.fail("Did not throw");
+        } catch (err: unknown) {
+          assert.ok(err instanceof TypeError);
+        }
+      }
     });
 
     it(`should stop running successfully before the first iteration`, async () => {

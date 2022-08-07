@@ -1,6 +1,6 @@
 {
   "name": "set-interval-async",
-  "version": "3.0.0",
+  "version": "3.0.11",
   "description": "Modern version of setInterval for promises and async functions available in Node.js and browsers.",
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "reentrancy"
   ],
   "main": "./dist/dynamic/set-interval-async.cjs",
+  "types": "dist/dynamic/set-interval-async.d.cts",
   "exports": {
     ".": {
       "require": "./dist/dynamic/set-interval-async.cjs",
@@ -40,24 +41,18 @@
       "import": "./dist/fixed/set-interval-async.mjs"
     }
   },
-  "types": "./dist/dynamic/set-interval-async.d.cts",
-  "unpkg": "./dist/browser/set-interval-async.iife.js",
-  "jsdelivr": "./dist/browser/set-interval-async.iife.js",
   "library": "SetIntervalAsync",
+  "unpkg": "dist/browser/set-interval-async.iife.js",
+  "jsdelivr": "dist/browser/set-interval-async.iife.js",
   "files": [
-    "./dist/browser/set-interval-async.iife.js",
-    "./dist/dynamic/set-interval-async.cjs",
-    "./dist/dynamic/set-interval-async.d.cts",
-    "./dist/dynamic/set-interval-async.mjs",
-    "./dist/fixed/set-interval-async.cjs",
-    "./dist/fixed/set-interval-async.mjs"
+    "dist"
   ],
   "author": "Emilio Almansi",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
     "build": "yarn build:tsc && yarn build:webpack",
-    "build:tsc": "tsc",
+    "build:tsc": "tsc --project tsconfig.build.json",
     "build:webpack": "webpack",
     "lint": "eslint src test",
     "format": "prettier --write src test",

@@ -1,4 +1,7 @@
-import { setIntervalAsync } from "set-interval-async/fixed";
+import {
+  setIntervalAsync,
+  SetIntervalAsyncHandler,
+} from "set-interval-async/fixed";
 import { install, InstalledClock } from "@sinonjs/fake-timers";
 import assert from "assert/strict";
 import sinon from "sinon";
@@ -12,6 +15,36 @@ describe("[Fixed] setIntervalAsync", () => {
 
   afterEach(() => {
     clock.uninstall();
+  });
+
+  it("should fail if handler is not a function", async () => {
+    const invalidHandlers = [null, undefined, 0, "str", {}, []];
+    const intervalMs = 1000;
+    for (const invalidHandler of invalidHandlers) {
+      try {
+        setIntervalAsync(
+          invalidHandler as unknown as SetIntervalAsyncHandler<[]>,
+          intervalMs
+        );
+        assert.fail("Did not throw");
+      } catch (err: unknown) {
+        assert.ok(err instanceof TypeError);
+      }
+    }
+  });
+
+  it("should fail if interval is not a number", async () => {
+    const handlerDurationMs = 100;
+    const handler = createHandlerForTest(handlerDurationMs);
+    const invalidIntervalMss = [null, undefined, "str", {}, [], new Function()];
+    for (const invalidIntervalMs of invalidIntervalMss) {
+      try {
+        setIntervalAsync(handler, invalidIntervalMs as number);
+        assert.fail("Did not throw");
+      } catch (err: unknown) {
+        assert.ok(err instanceof TypeError);
+      }
+    }
   });
 
   it("should run every intervalMs when intervalMs > handlerDurationMs", async () => {

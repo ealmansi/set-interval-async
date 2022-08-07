@@ -1,4 +1,4 @@
-import { SetIntervalAsyncFlavour } from "./set-interval-async-flavour.cjs";
+import { SetIntervalAsyncStrategy } from "./set-interval-async-strategy.cjs";
 import { SetIntervalAsyncHandler } from "./set-interval-async-handler.cjs";
 
 declare type NativeTimeout = unknown;
@@ -20,7 +20,7 @@ export class SetIntervalAsyncTimer<HandlerArgs extends unknown[]> {
   #stopped = false;
 
   static startTimer<HandlerArgs extends unknown[]>(
-    flavour: SetIntervalAsyncFlavour,
+    strategy: SetIntervalAsyncStrategy,
     handler: SetIntervalAsyncHandler<HandlerArgs>,
     intervalMs: number,
     ...handlerArgs: HandlerArgs
@@ -31,7 +31,7 @@ export class SetIntervalAsyncTimer<HandlerArgs extends unknown[]> {
     );
     const timer = new SetIntervalAsyncTimer<HandlerArgs>();
     timer.#scheduleTimeout(
-      flavour,
+      strategy,
       handler,
       intervalMs,
       intervalMs,
@@ -53,7 +53,7 @@ export class SetIntervalAsyncTimer<HandlerArgs extends unknown[]> {
   }
 
   #scheduleTimeout(
-    flavour: SetIntervalAsyncFlavour,
+    strategy: SetIntervalAsyncStrategy,
     handler: SetIntervalAsyncHandler<HandlerArgs>,
     intervalMs: number,
     delayMs: number,
@@ -62,7 +62,7 @@ export class SetIntervalAsyncTimer<HandlerArgs extends unknown[]> {
     this.#timeout = setTimeout(async () => {
       this.#timeout = undefined;
       this.#promise = this.#runHandlerAndScheduleTimeout(
-        flavour,
+        strategy,
         handler,
         intervalMs,
         ...handlerArgs
@@ -73,7 +73,7 @@ export class SetIntervalAsyncTimer<HandlerArgs extends unknown[]> {
   }
 
   async #runHandlerAndScheduleTimeout(
-    flavour: SetIntervalAsyncFlavour,
+    strategy: SetIntervalAsyncStrategy,
     handler: SetIntervalAsyncHandler<HandlerArgs>,
     intervalMs: number,
     ...handlerArgs: HandlerArgs
@@ -85,13 +85,13 @@ export class SetIntervalAsyncTimer<HandlerArgs extends unknown[]> {
       if (!this.#stopped) {
         const executionTimeMs = new Date().getTime() - startTimeMs;
         const delayMs =
-          flavour === "dynamic"
+          strategy === "dynamic"
             ? intervalMs > executionTimeMs
               ? intervalMs - executionTimeMs
               : 0
             : intervalMs;
         this.#scheduleTimeout(
-          flavour,
+          strategy,
           handler,
           intervalMs,
           delayMs,
