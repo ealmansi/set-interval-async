@@ -54,7 +54,7 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build": "yarn build:tsc && yarn build:webpack",
+    "build": "npm run build:tsc && npm run build:webpack",
     "build:tsc": "tsc --project tsconfig.build.json",
     "build:webpack": "webpack",
     "lint": "eslint src test",
