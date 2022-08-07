@@ -1,6 +1,6 @@
 import { install, InstalledClock } from "@sinonjs/fake-timers";
 import sinon from "sinon";
-import assert from "assert/strict";
+import { strict as assert } from "assert";
 import {
   setIntervalAsync as setIntervalAsyncDynamic,
   clearIntervalAsync as clearIntervalAsyncDynamic,

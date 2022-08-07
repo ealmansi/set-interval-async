@@ -1,4 +1,4 @@
-import assert from "assert/strict";
+import { strict as assert } from "assert";
 import { setIntervalAsync, clearIntervalAsync } from "set-interval-async";
 import {
   setIntervalAsync as setIntervalAsyncDynamic,

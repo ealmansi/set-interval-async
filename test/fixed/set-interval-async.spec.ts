@@ -3,7 +3,7 @@ import {
   SetIntervalAsyncHandler,
 } from "set-interval-async/fixed";
 import { install, InstalledClock } from "@sinonjs/fake-timers";
-import assert from "assert/strict";
+import { strict as assert } from "assert";
 import sinon from "sinon";
 
 describe("[Fixed] setIntervalAsync", () => {
