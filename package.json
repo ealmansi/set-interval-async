@@ -63,7 +63,7 @@
     "build:tsc": "tsc --project tsconfig.build.json",
     "build:webpack": "webpack",
     "lint": "eslint src test && prettier --check src test",
-    "prepublish": "npm run clean && npm run build && npm run lint && npm run test",
+    "prepack": "npm run clean && npm run build && npm run lint && npm run test",
     "format": "prettier --write src test",
     "test": "nyc mocha",
     "coverage": "nyc report --reporter=lcov"
