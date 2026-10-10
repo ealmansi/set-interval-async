@@ -1,10 +1,10 @@
-import { install, InstalledClock } from "@sinonjs/fake-timers";
+import { install, type Clock } from "@sinonjs/fake-timers";
 import sinon from "sinon";
 import { strict as assert } from "assert";
 import {
   setIntervalAsync as setIntervalAsyncDynamic,
   clearIntervalAsync as clearIntervalAsyncDynamic,
-  SetIntervalAsyncTimer,
+  type SetIntervalAsyncTimer,
 } from "set-interval-async/dynamic";
 import {
   setIntervalAsync as setIntervalAsyncFixed,
@@ -16,7 +16,7 @@ for (const [strategy, setIntervalAsync, clearIntervalAsync] of [
   ["Fixed", setIntervalAsyncFixed, clearIntervalAsyncFixed],
 ] as const) {
   describe(`[${strategy}] clearIntervalAsync`, () => {
-    let clock: InstalledClock;
+    let clock: Clock;
 
     beforeEach(() => {
       clock = install();

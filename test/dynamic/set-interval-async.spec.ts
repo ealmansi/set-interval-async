@@ -1,13 +1,13 @@
-import { install, InstalledClock } from "@sinonjs/fake-timers";
+import { install, type Clock } from "@sinonjs/fake-timers";
 import {
   setIntervalAsync,
-  SetIntervalAsyncHandler,
+  type SetIntervalAsyncHandler,
 } from "set-interval-async/dynamic";
 import { strict as assert } from "assert";
 import sinon from "sinon";
 
 describe("[Dynamic] setIntervalAsync", () => {
-  let clock: InstalledClock;
+  let clock: Clock;
 
   beforeEach(() => {
     clock = install();
