@@ -28,6 +28,6 @@ export function setIntervalAsync<HandlerArgs extends unknown[]>(
     "dynamic",
     handler,
     intervalMs,
-    ...handlerArgs
+    ...handlerArgs,
   );
 }

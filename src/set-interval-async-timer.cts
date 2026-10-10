@@ -27,7 +27,7 @@ export class SetIntervalAsyncTimer<HandlerArgs extends unknown[]> {
   ): SetIntervalAsyncTimer<HandlerArgs> {
     intervalMs = Math.min(
       Math.max(Math.trunc(intervalMs), MIN_INTERVAL_MS),
-      MAX_INTERVAL_MS
+      MAX_INTERVAL_MS,
     );
     const timer = new SetIntervalAsyncTimer<HandlerArgs>();
     timer.#scheduleTimeout(
@@ -35,13 +35,13 @@ export class SetIntervalAsyncTimer<HandlerArgs extends unknown[]> {
       handler,
       intervalMs,
       intervalMs,
-      ...handlerArgs
+      ...handlerArgs,
     );
     return timer;
   }
 
   static async stopTimer<HandlerArgs extends unknown[]>(
-    timer: SetIntervalAsyncTimer<HandlerArgs>
+    timer: SetIntervalAsyncTimer<HandlerArgs>,
   ): Promise<void> {
     timer.#stopped = true;
     if (timer.#timeout) {
@@ -65,7 +65,7 @@ export class SetIntervalAsyncTimer<HandlerArgs extends unknown[]> {
         strategy,
         handler,
         intervalMs,
-        ...handlerArgs
+        ...handlerArgs,
       );
       await this.#promise;
       this.#promise = undefined;
@@ -95,7 +95,7 @@ export class SetIntervalAsyncTimer<HandlerArgs extends unknown[]> {
           handler,
           intervalMs,
           delayMs,
-          ...handlerArgs
+          ...handlerArgs,
         );
       }
     }
