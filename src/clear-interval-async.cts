@@ -6,11 +6,11 @@ import { SetIntervalAsyncTimer } from "./set-interval-async-timer.cjs";
  * but all future ones will be cancelled.
  */
 export async function clearIntervalAsync<HandlerArgs extends unknown[]>(
-  timer: SetIntervalAsyncTimer<HandlerArgs>
+  timer: SetIntervalAsyncTimer<HandlerArgs>,
 ): Promise<void> {
   if (!(timer instanceof SetIntervalAsyncTimer)) {
     throw new TypeError(
-      "First argument is not an instance of SetIntervalAsyncTimer"
+      "First argument is not an instance of SetIntervalAsyncTimer",
     );
   }
   await SetIntervalAsyncTimer.stopTimer(timer);

@@ -24,7 +24,7 @@ describe("[Fixed] setIntervalAsync", () => {
       try {
         setIntervalAsync(
           invalidHandler as unknown as SetIntervalAsyncHandler<[]>,
-          intervalMs
+          intervalMs,
         );
         assert.fail("Did not throw");
       } catch (err: unknown) {
@@ -54,7 +54,7 @@ describe("[Fixed] setIntervalAsync", () => {
     const success = await runTest(
       iterationCount,
       intervalMs,
-      handlerDurationMs
+      handlerDurationMs,
     );
     assert.ok(success);
   });
@@ -66,7 +66,7 @@ describe("[Fixed] setIntervalAsync", () => {
     const success = await runTest(
       iterationCount,
       intervalMs,
-      handlerDurationMs
+      handlerDurationMs,
     );
     assert.ok(success);
   });
@@ -78,7 +78,7 @@ describe("[Fixed] setIntervalAsync", () => {
     const success = await runTest(
       iterationCount,
       intervalMs,
-      handlerDurationMs
+      handlerDurationMs,
     );
     assert.ok(success);
   });
@@ -99,7 +99,7 @@ describe("[Fixed] setIntervalAsync", () => {
   async function runTest(
     iterationCount: number,
     intervalMs: number,
-    handlerDurationMs: number
+    handlerDurationMs: number,
   ) {
     const handler = createHandlerForTest(handlerDurationMs);
     setIntervalAsync(handler, intervalMs);
@@ -107,12 +107,12 @@ describe("[Fixed] setIntervalAsync", () => {
       await clock.nextAsync();
       assert.equal(
         getCurrentTime(),
-        iteration * intervalMs + (iteration - 1) * handlerDurationMs
+        iteration * intervalMs + (iteration - 1) * handlerDurationMs,
       );
       await clock.nextAsync();
       assert.equal(
         getCurrentTime(),
-        iteration * (intervalMs + handlerDurationMs)
+        iteration * (intervalMs + handlerDurationMs),
       );
     }
     assert.equal(handler.callCount, iterationCount);
@@ -120,11 +120,11 @@ describe("[Fixed] setIntervalAsync", () => {
   }
 
   function createHandlerForTest(
-    handlerDurationMs: number
+    handlerDurationMs: number,
   ): sinon.SinonSpy<[], Promise<void>> {
     return sinon.fake(async () => {
       await new Promise((resolve) =>
-        clock.setTimeout(resolve, handlerDurationMs)
+        clock.setTimeout(resolve, handlerDurationMs),
       );
     });
   }
