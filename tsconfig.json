@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["ESNext"],
+    "types": ["node", "mocha"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "declaration": true,
